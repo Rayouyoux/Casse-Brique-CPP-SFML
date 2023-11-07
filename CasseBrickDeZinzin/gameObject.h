@@ -1,31 +1,26 @@
 #pragma once
 
-class Shape;
+#include <SFML/Graphics.hpp>
 
 class GameObject {
 
 public:
 
-	GameObject(int iX, int iY, int iWidht, int iHeight);
-	GameObject(int iX, int iY, int iRadius);
+	GameObject(float iX, float iY, float iWidht, float iHeight);
+	GameObject(float iX, float iY, float iRadius);
 
 	~GameObject();
 
-	/*void setPosition(int iX, int iY);
-
-	void setSize(int iWidth, int iHeight);*/
-
 	bool isCollision(GameObject* oGameObject);
-	void draw();
-	void rotate();
-	void move();
+	void move(float fDeltaTime, sf::Vector2i direction);
+	void rotate(sf::Vector2i* oMousePosition);
 
-	int m_iX;
-	int m_iY;
-	int m_iWidth;
-	int m_iHeight;
-	int m_iRadius;
-	Shape* m_oGraphic;
+	float m_fX;
+	float m_fY;
+	float m_fWidth;
+	float m_fHeight;
+	float m_fRadius;
+	sf::Shape* m_oGraphic;
 
 };
 

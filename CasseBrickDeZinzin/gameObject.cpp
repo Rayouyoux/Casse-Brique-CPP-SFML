@@ -1,62 +1,49 @@
 #include "gameObject.h"
 #include "maths.h"
+//#include <cmath>
 
-#include <SFML/Graphics.hpp>
-
-GameObject::GameObject(int iX, int iY, int iWidth, int iHeight) {
-	m_iX = iX;
-	m_iY = iY;
-	m_iWidth = iWidth;
-	m_iHeight = iHeight;
-	sf::RectangleShape m_oGraphic(sf::Vector2f(50.f, 50.f));
+GameObject::GameObject(float fX, float fY, float fWidth, float fHeight) {
+	m_fX = fX;
+	m_fY = fY;
+	m_fWidth = fWidth;
+	m_fHeight = fHeight;
+	m_oGraphic = new sf::RectangleShape(sf::Vector2f(fWidth, fHeight));
 }
 
-GameObject::GameObject(int iX, int iY, int iRadius) {
-	m_iX = iX;
-	m_iY = iY;
-	m_iRadius = iRadius;
-	sf::CircleShape m_oGraphic(100.f);
+GameObject::GameObject(float fX, float fY, float fRadius) {
+	m_fX = fX;
+	m_fY = fY;
+	m_fRadius = fRadius;
+	m_oGraphic = new sf::CircleShape(m_fRadius);
 }
 
 GameObject::~GameObject() {}
 
-//void GameObject::setPosition(int iX, int iY) {
-//	m_iX = iX;
-//	m_iY = iY;
-//}
-//
-//void GameObject::setSize(int iWidth, int iHeight) {
-//	m_iWidth = iWidth;
-//	m_iHeight = iHeight;
-//}
-
 bool GameObject::isCollision(GameObject* oGameObject) {
-	if (m_iWidth < oGameObject->m_iWidth) {
-		return maths::IsPointInside(m_iX, oGameObject->m_iX, oGameObject->m_iX + oGameObject->m_iWidth) ||
-			   maths::IsPointInside(m_iX + m_iWidth, oGameObject->m_iX, oGameObject->m_iX + oGameObject->m_iWidth);
+	if (m_fWidth < oGameObject->m_fWidth) {
+		return maths::IsPointInside(m_fX, oGameObject->m_fX, oGameObject->m_fX + oGameObject->m_fWidth) ||
+			   maths::IsPointInside(m_fX + m_fWidth, oGameObject->m_fX, oGameObject->m_fX + oGameObject->m_fWidth);
 	}
 	else {
-		return maths::IsPointInside(oGameObject->m_iX, m_iX, m_iX + m_iWidth) ||
-			   maths::IsPointInside(oGameObject->m_iX + oGameObject->m_iWidth, m_iX, m_iX + m_iWidth);
+		return maths::IsPointInside(oGameObject->m_fX, m_fX, m_fX + m_fWidth) ||
+			   maths::IsPointInside(oGameObject->m_fX + oGameObject->m_fWidth, m_fX, m_fX + m_fWidth);
 	}
-	if (m_iHeight < oGameObject->m_iHeight) {
-		return maths::IsPointInside(m_iY, oGameObject->m_iY, oGameObject->m_iY + oGameObject->m_iHeight) ||
-			   maths::IsPointInside(m_iY + m_iHeight, oGameObject->m_iY, oGameObject->m_iY + oGameObject->m_iHeight);
+	if (m_fHeight < oGameObject->m_fHeight) {
+		return maths::IsPointInside(m_fY, oGameObject->m_fY, oGameObject->m_fY + oGameObject->m_fHeight) ||
+			   maths::IsPointInside(m_fY + m_fHeight, oGameObject->m_fY, oGameObject->m_fY + oGameObject->m_fHeight);
 	}
 	else {
-		return maths::IsPointInside(oGameObject->m_iY, m_iY, m_iY + m_iHeight) ||
-			   maths::IsPointInside(oGameObject->m_iY + oGameObject->m_iHeight, m_iY, m_iY + m_iHeight);
+		return maths::IsPointInside(oGameObject->m_fY, m_fY, m_fY + m_fHeight) ||
+			   maths::IsPointInside(oGameObject->m_fY + oGameObject->m_fHeight, m_fY, m_fY + m_fHeight);
 	}
 }
 
-void GameObject::draw() {
-
+void GameObject::move(float fDeltaTime, sf::Vector2i direction) {
+	m_fX += direction.x * fDeltaTime * 100.f;
+	m_fY += direction.y * fDeltaTime * 100.f;
+	m_oGraphic->setPosition(m_fX, m_fY)	;
 }
 
-void GameObject::rotate() {
-
-}
-
-void GameObject::move() {
-
+void GameObject::rotate(sf::Vector2i* oMousePosition) {
+	m_oGraphic->setRotation(-atan2(oMousePosition->x - m_fX, oMousePosition->y - m_fY) * 180 / 3.14159);
 }
