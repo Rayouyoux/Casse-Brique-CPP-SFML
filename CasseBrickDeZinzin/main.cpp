@@ -14,6 +14,12 @@ int main(int argc, char** argv)
     sf::Clock oClock;
     float fDeltaTime = 0;
 
+    sf::Vector2i tam;
+    tam.x = 1;
+    tam.y = 1;
+
+    sf::Vector2f orientation = maths::getOrientationVector(tam, oRectangle->m_fX, oRectangle->m_fY);
+
     while (oWindow.isOpen())
     {
         sf::Event oEvent;
@@ -24,18 +30,19 @@ int main(int argc, char** argv)
         }
         sf::Vector2i oMousePosition = sf::Mouse::getPosition(oWindow);
 
-        oRectangle->move(fDeltaTime, sf::Vector2i(1, 1), 100.f);
+
+        oRectangle->move(fDeltaTime, orientation, 100.f);
         /*oRectangle2->move(fDeltaTime, sf::Vector2i(-1, -1), 100.f);*/
         /*oRectangle->rotate(&oMousePosition);*/
 
 
         oWindow.clear();
 
-        if (oRectangle->isCollision(oRectangle2)){
+        if (oRectangle->isCollision(oRectangle2) != 0){
             oWindow.draw(*oRectangle3->m_oGraphic);
         }
         if (oRectangle->isCollision(&oWindow) != 0) {
-            sf::Vector2f orientation = maths::getOrientationVector(oMousePosition, oRectangle->m_fX, oRectangle->m_fY);
+            int side = oRectangle->isCollision(&oWindow);
             maths::bounceVector(orientation, side);
         }
 

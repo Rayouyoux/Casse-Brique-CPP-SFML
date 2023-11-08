@@ -9,9 +9,9 @@ public:
 	GameObject(float iX, float iY, float iWidht, float iHeight);
 	GameObject(float iX, float iY, float iRadius);
 
-	bool isCollision(GameObject* oGameObject);
-	bool isCollision(sf::RenderWindow* oWindow);
-	void move(float fDeltaTime, sf::Vector2i direction, float fspeed);
+	int isCollision(GameObject* oGameObject);
+	int isCollision(sf::RenderWindow* oWindow);
+	void move(float fDeltaTime, sf::Vector2f direction, float fspeed);
 	void rotate(sf::Vector2i* oMousePosition);
 
 	float m_fX;
