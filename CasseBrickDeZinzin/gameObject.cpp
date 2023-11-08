@@ -8,6 +8,7 @@ GameObject::GameObject(float fX, float fY, float fWidth, float fHeight) {
 	m_fWidth = fWidth;
 	m_fHeight = fHeight;
 	m_oGraphic = new sf::RectangleShape(sf::Vector2f(fWidth, fHeight));
+	m_oGraphic->setPosition(m_fX, m_fY);
 }
 
 GameObject::GameObject(float fX, float fY, float fRadius) {
@@ -15,6 +16,7 @@ GameObject::GameObject(float fX, float fY, float fRadius) {
 	m_fY = fY;
 	m_fRadius = fRadius;
 	m_oGraphic = new sf::CircleShape(m_fRadius);
+	m_oGraphic->setPosition(m_fX, m_fY);
 }
 
 GameObject::~GameObject() {}
