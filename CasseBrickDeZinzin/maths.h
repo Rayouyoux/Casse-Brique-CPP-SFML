@@ -7,7 +7,7 @@ namespace maths {
 
 	bool IsPointInside(float i, float iMin, float iMax);
 	void normalizeVector(sf::Vector2f orientationVector);
-	float getComplementaryAngle(float angle);
 	void bounceVector(sf::Vector2f orientationVector, int side);
+	sf::Vector2f getOrientationVector(sf::Vector2i& oMousePosition, int iX, int iY);
 }
 

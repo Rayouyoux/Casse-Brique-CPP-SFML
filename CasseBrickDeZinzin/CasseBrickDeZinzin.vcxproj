@@ -131,11 +131,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="gameObject.cpp" />
+    <ClCompile Include="inputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maths.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameObject.h" />
+    <ClInclude Include="inputManager.h" />
     <ClInclude Include="maths.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

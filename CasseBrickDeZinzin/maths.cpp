@@ -13,12 +13,16 @@ namespace maths {
 		orientationVector.y = orientationVector.y / vectorNorm;
 	}
 
-	float getComplementaryAngle(float angle) {
-		return 90 - angle;
-	}
-
 	void bounceVector(sf::Vector2f orientationVector, int side) {
 		side == 1 ? orientationVector.x = -orientationVector.x : orientationVector.y = -orientationVector.y;
+	}
+
+	sf::Vector2f getOrientationVector(sf::Vector2i& oMousePosition, int iX, int iY) {
+		sf::Vector2f orientationVector;
+		orientationVector.x = oMousePosition.x - iX;
+		orientationVector.y = oMousePosition.y - iY;
+		normalizeVector(orientationVector);
+		return orientationVector;
 	}
 
 }
