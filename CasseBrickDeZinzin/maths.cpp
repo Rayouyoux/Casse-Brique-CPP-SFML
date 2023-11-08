@@ -7,18 +7,18 @@ namespace maths {
 		return i >= iMin && i <= iMax;
 	}
 
-	void normalizeVector(std::vector<float> orientationVector) {
-		float vectorNorm = sqrt(pow(orientationVector[0],2)+pow(orientationVector[1], 2));
-		orientationVector[0] = orientationVector[0] / vectorNorm;
-		orientationVector[1] = orientationVector[1] / vectorNorm;
+	void normalizeVector(sf::Vector2f orientationVector) {
+		float vectorNorm = sqrt(pow(orientationVector.x,2)+pow(orientationVector.y, 2));
+		orientationVector.x = orientationVector.x / vectorNorm;
+		orientationVector.y = orientationVector.y / vectorNorm;
 	}
 
 	float getComplementaryAngle(float angle) {
 		return 90 - angle;
 	}
 
-	void bounceVector(std::vector<float> orientationVector, int side, float angle) {
-
+	void bounceVector(sf::Vector2f orientationVector, int side) {
+		side == 1 ? orientationVector.x = -orientationVector.x : orientationVector.y = -orientationVector.y;
 	}
 
 }
