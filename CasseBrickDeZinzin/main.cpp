@@ -1,4 +1,5 @@
 #include "gameObject.h"
+#include "maths.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -6,8 +7,9 @@ int main(int argc, char** argv)
 {
     sf::RenderWindow oWindow(sf::VideoMode(640, 480), "SFML");
     GameObject* oRectangle = new GameObject(0, 0, 100, 100);
-    GameObject* oRectangle2 = new GameObject(640, 480, 100, 100);
+    GameObject* oRectangle2 = new GameObject(320, 240, 100, 100);
     GameObject* oRectangle3 = new GameObject(0, 0, 100, 100);
+    GameObject* oCircle = new GameObject(200, 200, 50);
 
     sf::Clock oClock;
     float fDeltaTime = 0;
@@ -22,19 +24,23 @@ int main(int argc, char** argv)
         }
         sf::Vector2i oMousePosition = sf::Mouse::getPosition(oWindow);
 
-        oRectangle->move(fDeltaTime, sf::Vector2i(1, 1));
-        oRectangle2->move(fDeltaTime, sf::Vector2i(-1, -1));
-        oRectangle->rotate(&oMousePosition);
+        oRectangle->move(fDeltaTime, sf::Vector2i(1, 1), 100.f);
+        /*oRectangle2->move(fDeltaTime, sf::Vector2i(-1, -1), 100.f);*/
+        /*oRectangle->rotate(&oMousePosition);*/
 
 
         oWindow.clear();
 
-        if (oRectangle->isCollision(oRectangle2)) {
+        if (oRectangle->isCollision(oRectangle2)){
             oWindow.draw(*oRectangle3->m_oGraphic);
+        }
+        if (oRectangle->isCollision(&oWindow)) {
+
         }
 
         oWindow.draw(*oRectangle->m_oGraphic);
         oWindow.draw(*oRectangle2->m_oGraphic);
+        oWindow.draw(*oCircle->m_oGraphic);
 
         oWindow.display();
 
