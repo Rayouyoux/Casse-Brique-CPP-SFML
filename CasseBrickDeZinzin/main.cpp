@@ -34,8 +34,9 @@ int main(int argc, char** argv)
         if (oRectangle->isCollision(oRectangle2)){
             oWindow.draw(*oRectangle3->m_oGraphic);
         }
-        if (oRectangle->isCollision(&oWindow)) {
-
+        if (oRectangle->isCollision(&oWindow) != 0) {
+            sf::Vector2f orientation = maths::getOrientationVector(oMousePosition, oRectangle->m_fX, oRectangle->m_fY);
+            maths::bounceVector(orientation, side);
         }
 
         oWindow.draw(*oRectangle->m_oGraphic);

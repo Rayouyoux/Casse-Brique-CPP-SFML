@@ -17,10 +17,10 @@ namespace maths {
 		side == 1 ? orientationVector.x = -orientationVector.x : orientationVector.y = -orientationVector.y;
 	}
 
-	sf::Vector2f getOrientationVector(sf::Vector2i& oMousePosition, int iX, int iY) {
+	sf::Vector2f getOrientationVector(sf::Vector2i& oMousePosition, float fX, float fY) {
 		sf::Vector2f orientationVector;
-		orientationVector.x = oMousePosition.x - iX;
-		orientationVector.y = oMousePosition.y - iY;
+		orientationVector.x = oMousePosition.x - fX;
+		orientationVector.y = oMousePosition.y - fY;
 		normalizeVector(orientationVector);
 		return orientationVector;
 	}
