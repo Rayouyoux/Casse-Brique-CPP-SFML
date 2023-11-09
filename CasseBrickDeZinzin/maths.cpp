@@ -14,7 +14,8 @@ namespace maths {
 	}
 
 	void bounceVector(sf::Vector2f orientationVector, int side) {
-		side == 1 ? orientationVector.x = -orientationVector.x : orientationVector.y = -orientationVector.y;
+		side == 1 || side == 2 ? orientationVector.x = -orientationVector.x : orientationVector.y = -orientationVector.y;
+
 	}
 
 	sf::Vector2f getOrientationVector(sf::Vector2i& oMousePosition, float fX, float fY) {
