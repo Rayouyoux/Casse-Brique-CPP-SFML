@@ -41,12 +41,17 @@ bool GameObject::isCollision(GameObject* oGameObject) {
 	return bCollisionX && bCollisionY;
 }
 
-bool GameObject::isCollision(sf::RenderWindow* oWindow) {
-	return (m_fX < 0 || m_fX + m_fWidth > oWindow->getSize().x) ||
-		(m_fY < 0 || m_fY + m_fHeight > oWindow->getSize().y);
+int GameObject::isCollision(sf::RenderWindow* oWindow) {
+	if (m_fX < 0 || m_fX + m_fWidth > oWindow->getSize().x) {
+		return 1;
+	}
+	else if (m_fY < 0 || m_fY + m_fHeight > oWindow->getSize().y) {
+		return 2;
+	}
+	return 0;
 }
 
-void GameObject::move(float fDeltaTime, sf::Vector2i direction, float fspeed) {
+void GameObject::move(float fDeltaTime, sf::Vector2f direction, float fspeed) {
 	m_fX += direction.x * fDeltaTime * fspeed;
 	m_fY += direction.y * fDeltaTime * fspeed;
 	m_oGraphic->setPosition(m_fX, m_fY);
