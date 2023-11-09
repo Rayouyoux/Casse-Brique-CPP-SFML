@@ -14,7 +14,7 @@ int main(int argc, char** argv)
     sf::Clock oClock;
     float fDeltaTime = 0;
     sf::Vector2i test(1, 1);
-    sf::Vector2f orientation = maths::getOrientationVector(test, oCircle->m_fX, oCircle->m_fY);
+    sf::Vector2f orientation = maths::getOrientationVector(&test, oCircle->m_fX, oCircle->m_fY);
     int iCollision;
 
     while (oWindow.isOpen())
