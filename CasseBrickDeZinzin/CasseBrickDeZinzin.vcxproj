@@ -134,11 +134,13 @@
     <ClCompile Include="inputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maths.cpp" />
+    <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="inputManager.h" />
     <ClInclude Include="maths.h" />
+    <ClInclude Include="window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
