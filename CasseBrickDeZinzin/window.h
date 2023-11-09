@@ -3,18 +3,25 @@
 #include <iostream>
 #include <vector>
 
-#include
+#include <SFML/Graphics.hpp>
 
-#include <SFML/Window.hpp>
+class GameObject;
 
-class Window{
+class Window {
 
 public:
 
-	Window();
+	Window(int iWidth, int iHeight, std::string sWindowName);
+
+	void display();
+	void close();
+
+	int m_iWidth;
+	int m_iHeight;
+	std::string m_sWindowName;
+	std::vector<GameObject*> m_voWindowObjects;
+	sf::RenderWindow* m_oWindow;
 
 	~Window();
 
-	std::vector<
-
-}
+};
