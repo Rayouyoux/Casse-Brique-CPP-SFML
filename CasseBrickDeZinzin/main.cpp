@@ -8,7 +8,7 @@ int main(int argc, char** argv)
     sf::RenderWindow oWindow(sf::VideoMode(640, 480), "SFML");
     sf::Vector2i test(1, 1);
 
-    GameObject* oRectangle = new GameObject(200, 20, 100, 100, &test);
+    GameObject* oRectangle = new GameObject(320, 460, 20, 100, &test);
     GameObject* oRectangle2 = new GameObject(320, 240, 100, 100, &test);
     GameObject* oCircle = new GameObject(0, 0, 50, &test);
 
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 
         oCircle->move(fDeltaTime, 200.f);
         /*oRectangle2->move(fDeltaTime, sf::Vector2i(-1, -1), 100.f);*/
-        /*oRectangle->rotate(&oMousePosition);*/
+        oRectangle->rotate(&oMousePosition);    
 
 
         oWindow.clear();

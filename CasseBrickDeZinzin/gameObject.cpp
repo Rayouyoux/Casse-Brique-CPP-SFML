@@ -58,7 +58,7 @@ void GameObject::handleCollision(GameObject* oGameObject) {
 	}
 	else 
 	{
-		if (m_oObjectCollision != NULL) {
+		if (m_oObjectCollision == oGameObject) {
 			onCollisionExit(sideCollision(oGameObject));
 			m_oObjectCollision = NULL;
 		}
@@ -110,13 +110,15 @@ void GameObject::setPosition(float fX, float fY) {
 
 
 void GameObject::move(float fDeltaTime, float fspeed) {
-	m_fX += m_oOrientation.x * fDeltaTime * fspeed;
-	m_fY += m_oOrientation.y * fDeltaTime * fspeed;
-	m_oGraphic->setPosition(m_fX, m_fY);
+	float fX = m_fX + m_oOrientation.x * fDeltaTime * fspeed;
+	float fY = m_fY + m_oOrientation.y * fDeltaTime * fspeed;
+	setPosition(fX, fY);
 }
 
 void GameObject::rotate(sf::Vector2i* oMousePosition) {
-	m_oGraphic->setRotation(-atan2(oMousePosition->x - m_fX, oMousePosition->y - m_fY) * 180 / 3.14159);
+	if (oMousePosition->y < m_fY) {
+		m_oGraphic->setRotation(-atan2(oMousePosition->x - m_fX, oMousePosition->y - m_fY) * 180 / 3.14159);
+	}
 }
 
 void GameObject::onCollisionEnter(int side) {
