@@ -1,18 +1,15 @@
 #pragma once
 
-#include "gameObject.h"
+#include "PhysicalGameObject.h"
 
-class Ball : public GameObject
+class Ball : public PhysicalGameObject
 {
-
 public:
-
-	Ball(float fX, float fY, float fRadius, float fSpeed, sf::Vector2i* oOrientation);
+	Ball(float fX, float fY, float fRadius, sf::Vector2i* oOrientation, Window* oWindow);
 	~Ball();
 
-	float m_fRadius;
-	float m_fSpeed;
-	sf::Vector2f m_oOrientation;
-
+	void onCollisionEnter(int side) override;
+	void onCollisionStay(int side) override;
+	void onCollisionExit(int side) override;
 };
 
