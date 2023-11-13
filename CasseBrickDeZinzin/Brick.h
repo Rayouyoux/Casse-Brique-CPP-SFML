@@ -8,7 +8,7 @@ public:
 
 	int m_iLife;
 
-	Brick(int iLife, float fX, float fY, float fWidth, float fHeight, sf::Vector2i* oOrientation, Window* oWindow);
+	Brick(int iLife, float fX, float fY, float fWidth, float fHeight, Window* oWindow);
 	~Brick();
 
 	void onCollisionEnter(int side) override;

@@ -1,7 +1,7 @@
 #include "Cannon.h"
 #include "window.h"
 
-Cannon::Cannon(float fX, float fY, float fWidth, float fHeight, Window* oWindow) : 
+Cannon::Cannon(float fX, float fY, float fWidth, float fHeight, Window* oWindow) :
 		GameObject(fX, fY, fWidth, fHeight, oWindow) {
 
 }

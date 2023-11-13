@@ -5,7 +5,7 @@
 class Ball : public PhysicalGameObject
 {
 public:
-	Ball(float fX, float fY, float fRadius, sf::Vector2i* oOrientation, Window* oWindow);
+	Ball(float fX, float fY, float fRadius, Window* oWindow);
 	~Ball();
 
 	void onCollisionEnter(int side) override;

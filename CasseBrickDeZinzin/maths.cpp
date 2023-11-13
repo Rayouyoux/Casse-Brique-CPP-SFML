@@ -31,12 +31,16 @@ namespace maths {
 
 	float getAngle(sf::Vector2f* oVector1, sf::Vector2f* oVector2) {
 		float fScalar = oVector1->x * oVector2->x + oVector1->y * oVector2->y; 
-		return fScalar / (normVector(oVector1) * normVector(oVector2));
+		return acos(fScalar / (normVector(oVector1) * normVector(oVector2)))*180 / 3.14159;
 	}
 
-	float getLonger(sf::Vector2f* oVector, float fAngle) {
-		float fLonger = normVector(oVector);
-		return tan(fAngle) * fLonger;
+	float getLength(float fLength, float fAngle) {
+		return fLength / cos(fAngle);
+	}
+
+	void invertVector(sf::Vector2f* orientationVector) {
+		orientationVector->x = -orientationVector->x;
+		orientationVector->y = -orientationVector->y;
 	}
 
 }

@@ -5,45 +5,23 @@
 #include <SFML/Graphics.hpp>
 
 
-PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fWidth, float fHeight, sf::Vector2i* oOrientation, Window* oWindow) : 
+PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fWidth, float fHeight, Window* oWindow) : 
 					GameObject (fX, fY, fWidth, fHeight, oWindow) {
-	m_oOrientation = maths::getOrientationVector(oOrientation, fX, fY);
 	m_bWindowCollision = false;
 }
 
-PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fRadius, sf::Vector2i* oOrientation, Window* oWindow) :
+PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fRadius, Window* oWindow) :
 	GameObject(fX, fY, fRadius, oWindow) {
-	m_oOrientation = maths::getOrientationVector(oOrientation, fX, fY);
 	m_bWindowCollision = false;
-}
-
-void PhysicalGameObject::move(float fDeltaTime, float fspeed) {
-	float fX = m_fX + m_oOrientation.x * fDeltaTime * fspeed;
-	float fY = m_fY + m_oOrientation.y * fDeltaTime * fspeed;
-	setPosition(fX, fY);
 }
 
 void PhysicalGameObject::handleCollision(GameObject* oGameObject) {
 	bool bCollisionX;
 	bool bCollisionY;
 
-	bool bCollisionA;
-	bool bCollisionB;
-	bool bCollisionC;
-	bool bCollisionD;
-	float fXCollision = 0.f;
-	float fYCollision = 0.f;
-
 	if (m_fWidth <= oGameObject->m_fWidth) {
-		bCollisionA = maths::IsPointInside(m_fX, oGameObject->m_fX, oGameObject->m_fX + oGameObject->m_fWidth);
-		bCollisionB = maths::IsPointInside(m_fX + m_fWidth, oGameObject->m_fX, oGameObject->m_fX + oGameObject->m_fWidth);
-		if (bCollisionA) {
-			fXCollision = m_fX;
-		}
-		else {
-			fXCollision = m_fX + m_fWidth;
-		}
-		bCollisionX = bCollisionA || bCollisionB;
+		bCollisionX = maths::IsPointInside(m_fX, oGameObject->m_fX, oGameObject->m_fX + oGameObject->m_fWidth) || 
+			maths::IsPointInside(m_fX + m_fWidth, oGameObject->m_fX, oGameObject->m_fX + oGameObject->m_fWidth);
 			
 	}
 	else {
@@ -52,15 +30,9 @@ void PhysicalGameObject::handleCollision(GameObject* oGameObject) {
 	}
 
 	if (m_fHeight <= oGameObject->m_fHeight) {
-		bCollisionC = maths::IsPointInside(m_fY, oGameObject->m_fY, oGameObject->m_fY + oGameObject->m_fHeight);
-		bCollisionD = maths::IsPointInside(m_fY + m_fHeight, oGameObject->m_fY, oGameObject->m_fY + oGameObject->m_fHeight);
-		if (bCollisionC) {
-			fYCollision = m_fY;
-		}
-		else {
-			fYCollision = m_fY + m_fHeight;
-		}
-		bCollisionY = bCollisionC || bCollisionD;	
+		bCollisionY = maths::IsPointInside(m_fY, oGameObject->m_fY, oGameObject->m_fY + oGameObject->m_fHeight) || 
+			maths::IsPointInside(m_fY + m_fHeight, oGameObject->m_fY, oGameObject->m_fY + oGameObject->m_fHeight);
+		 	
 	}
 	else {
 		bCollisionY = maths::IsPointInside(oGameObject->m_fY, m_fY, m_fY + m_fHeight) ||
@@ -70,7 +42,7 @@ void PhysicalGameObject::handleCollision(GameObject* oGameObject) {
 	auto iIndex = std::find(m_oObjectCollision.begin(), m_oObjectCollision.end(), oGameObject);
 	if (bCollisionX && bCollisionY) {
 		if (iIndex == m_oObjectCollision.end()) {
-			onCollisionEnter(sideCollision(oGameObject, fXCollision, fYCollision));
+			onCollisionEnter(sideCollision(oGameObject));
 			//oGameObject->onCollisionEnter(sideCollision(oGameObject));
 			m_oObjectCollision.push_back(oGameObject);
 		}
@@ -88,23 +60,42 @@ void PhysicalGameObject::handleCollision(GameObject* oGameObject) {
 }
 
 
-int PhysicalGameObject::sideCollision(GameObject* oGameObjec, float fX, float fY) {
-	float fLongerX = fX - oGameObjec->m_fX;
-	sf::Vector2f* oVectorX = new sf::Vector2f(-fLongerX, 0);
-	float fAngleX = maths::getAngle(oVectorX, &m_oOrientation);
-
-	float fLongerY = fY - oGameObjec->m_fY;
-	sf::Vector2f* oVectorY = new sf::Vector2f(0, -fLongerY);
-	float fAngleY = maths::getAngle(oVectorY, &m_oOrientation);
-
-	std::cout << fAngleX << std::endl << fAngleY << std::endl;
-	if (fAngleX < fAngleY) {
-		float fLongerReturn = maths::getLonger(oVectorX, fAngleX);
-		setPosition(m_fX - fLongerReturn, m_fY);
+int PhysicalGameObject::sideCollision(GameObject* oGameObject) {
+	sf::Vector2f* oInverseVector = new sf::Vector2f(0, 0);
+	float fdistance;
+	if (m_fHeight < oGameObject->m_fHeight) {
+		oInverseVector->x = m_oOrientation.x;
+		oInverseVector->y = m_oOrientation.y;
+		maths::invertVector(oInverseVector);
+		std::cout << "Inverse Vector x :" << oInverseVector->x << " y :" << oInverseVector->y << std::endl;
+		fdistance = m_oOrientation.y < 0 ? oGameObject->m_fY + oGameObject->m_fHeight - m_fY : 
+											m_fY + m_fHeight - oGameObject->m_fY;
+		std::cout <<"Distance : " << fdistance << std::endl;
 	}
 	else {
-		float fLongerReturn = maths::getLonger(oVectorY, fAngleY);
-		setPosition(m_fX, m_fY + fLongerReturn);
+		oInverseVector->x = oGameObject->m_oOrientation.x;
+		oInverseVector->y = oGameObject->m_oOrientation.y;
+		maths::invertVector(oInverseVector);
+		fdistance = oGameObject->m_oOrientation.y < 0 ? m_fY + m_fHeight - oGameObject->m_fY : 
+														oGameObject->m_fY + oGameObject->m_fHeight - m_fY;
+	}
+	sf::Vector2f* oVector = new sf::Vector2f(0, fdistance);
+	if (m_oOrientation.y > 0) {
+		oVector->y = -fdistance;
+	}
+	std::cout << "x :" << oVector->x << " y :" << oVector->y << std::endl;
+	float fAngle = maths::getAngle(oInverseVector, oVector);
+	std::cout << "Angle : " << fAngle << std::endl;
+	float fLength = maths::getLength(fdistance, fAngle);
+	std::cout << "Length : " << fLength << std::endl;
+	oInverseVector->x *= fLength;
+	oInverseVector->y *= fLength;
+	std::cout << "Inverse Vector Before Pos x :" << oInverseVector->x << " y :" << oInverseVector->y << std::endl;
+	if (m_fHeight < oGameObject->m_fHeight) {
+		setPosition(m_fX + oInverseVector->x, m_fY + oInverseVector->y);
+	}
+	else {
+		setPosition(oGameObject->m_fX + oInverseVector->x, oGameObject->m_fY + oInverseVector->y);
 	}
 
 	return 0;

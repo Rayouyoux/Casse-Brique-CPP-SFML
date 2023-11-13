@@ -10,7 +10,8 @@ namespace maths {
 	void bounceVector(sf::Vector2f* orientationVector, int side);
 	sf::Vector2f getOrientationVector(sf::Vector2i* oMousePosition, float fX, float fY);
 	float getAngle(sf::Vector2f* oVector1, sf::Vector2f* oVector2);
-	float getLonger(sf::Vector2f* oVector, float fAngle);
+	float getLength(float fLength, float fAngle);
 	float normVector(sf::Vector2f* oVector);
+	void invertVector(sf::Vector2f* orientationVector);
 }
 

@@ -1,7 +1,7 @@
 #include "Ball.h"
 
-Ball::Ball(float fX, float fY, float fRadius, sf::Vector2i* oOrientation, Window* oWindow) :
-	PhysicalGameObject(fX, fY, fRadius, oOrientation, oWindow) {
+Ball::Ball(float fX, float fY, float fRadius, Window* oWindow) :
+	PhysicalGameObject(fX, fY, fRadius, oWindow) {
 }
 
 void Ball::onCollisionEnter(int side) {

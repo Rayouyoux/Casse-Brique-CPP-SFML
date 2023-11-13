@@ -12,12 +12,12 @@ int main(int argc, char** argv)
 {
     Window* oWindow = new Window(640, 480, "SFML");
     /*sf::RenderWindow oWindow(sf::VideoMode(640, 480), "SFML");*/
-    sf::Vector2i test(1, 1);
 
     Cannon* oCannon = new Cannon(320, 460, 20, 100, oWindow);
-    Brick* oBrick1 = new Brick(0, 320, 240, 100, 100, &test, oWindow);
-    Brick* oBrick2 = new Brick(0, 340, 290, 100, 100, &test, oWindow);
-    Ball* oBall = new Ball(0, 0, 50, &test, oWindow);
+    Brick* oBrick1 = new Brick(0, 320, 240, 100, 100, oWindow);
+    Brick* oBrick2 = new Brick(0, 340, 290, 90, 90, oWindow);
+    Ball* oBall = new Ball(0, 0, 50, oWindow);
+    oBrick2->m_oGraphic->setFillColor(sf::Color(255, 0, 0));
 
     sf::Clock oClock;
     float fDeltaTime = 0;
@@ -42,7 +42,6 @@ int main(int argc, char** argv)
         if (oMousePosition.y > oCannon->m_fY) {
             oBrick2->handleCollision(oBrick1);
         }
-
         oWindow->display();
 
         fDeltaTime = oClock.restart().asSeconds();

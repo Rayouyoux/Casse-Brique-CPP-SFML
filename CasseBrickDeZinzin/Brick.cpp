@@ -1,7 +1,7 @@
 #include "Brick.h"
 
-Brick::Brick(int iLife, float fX, float fY, float fWidth, float fHeight, sf::Vector2i* oOrientation, Window* oWindow) :
-	PhysicalGameObject(fX, fY, fWidth, fHeight, oOrientation, oWindow) {
+Brick::Brick(int iLife, float fX, float fY, float fWidth, float fHeight, Window* oWindow) :
+	PhysicalGameObject(fX, fY, fWidth, fHeight, oWindow) {
 	m_iLife = iLife;
 }
 
