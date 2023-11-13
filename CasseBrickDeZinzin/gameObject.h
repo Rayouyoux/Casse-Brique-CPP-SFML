@@ -6,8 +6,8 @@ class GameObject {
 
 public:
 
-	GameObject(float iX, float iY, float iWidht, float iHeight, sf::Vector2i* oOrientation);
-	GameObject(float iX, float iY, float iRadius, sf::Vector2i* oOrientation);
+	GameObject(float fX, float fY, float fWidht, float fHeight, sf::Vector2i* oOrientation);
+	GameObject(float fX, float fY, float iRadius, sf::Vector2i* oOrientation);
 
 	void handleCollision(GameObject* oGameObject);
 	void handleCollision(sf::RenderWindow* oWindow);

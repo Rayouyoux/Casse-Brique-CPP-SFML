@@ -130,6 +130,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ball.cpp" />
+    <ClCompile Include="brick.cpp" />
+    <ClCompile Include="canon.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="inputManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -137,6 +140,9 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ball.h" />
+    <ClInclude Include="brick.h" />
+    <ClInclude Include="canon.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="inputManager.h" />
     <ClInclude Include="maths.h" />
