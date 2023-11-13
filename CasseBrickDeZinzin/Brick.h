@@ -11,6 +11,7 @@ public:
 	Brick(int iLife, float fX, float fY, float fWidth, float fHeight, Window* oWindow);
 	~Brick();
 
+	void changeHp(int value);
 	void onCollisionEnter(int side) override;
 	void onCollisionStay(int side) override;
 	void onCollisionExit(int side) override;
