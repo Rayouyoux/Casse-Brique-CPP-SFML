@@ -5,6 +5,10 @@ Brick::Brick(int iLife, float fX, float fY, float fWidth, float fHeight, sf::Vec
 	m_iLife = iLife;
 }
 
+void Brick::changeHp(int value) {
+	m_iLife += value;
+}
+
 void Brick::onCollisionEnter(int side) {
 	/*maths::bounceVector(&m_oOrientation, side);*/
 }
