@@ -7,8 +7,12 @@ namespace maths {
 		return i >= iMin && i <= iMax;
 	}
 
+	float normVector(sf::Vector2f* oVector) {
+		return sqrt(pow(oVector->x, 2) + pow(oVector->y, 2));
+	}
+
 	void normalizeVector(sf::Vector2f* orientationVector) {
-		float vectorNorm = sqrt(pow(orientationVector->x,2)+pow(orientationVector->y, 2));
+		float vectorNorm = normVector(orientationVector);
 		orientationVector->x = orientationVector->x / vectorNorm;
 		orientationVector->y = orientationVector->y / vectorNorm;
 	}
@@ -23,6 +27,16 @@ namespace maths {
 		orientationVector.y = oMousePosition->y - fY;
 		normalizeVector(&orientationVector);
 		return orientationVector;
+	}
+
+	float getAngle(sf::Vector2f* oVector1, sf::Vector2f* oVector2) {
+		float fScalar = oVector1->x * oVector2->x + oVector1->y * oVector2->y; 
+		return fScalar / (normVector(oVector1) * normVector(oVector2));
+	}
+
+	float getLonger(sf::Vector2f* oVector, float fAngle) {
+		float fLonger = normVector(oVector);
+		return tan(fAngle) * fLonger;
 	}
 
 }
