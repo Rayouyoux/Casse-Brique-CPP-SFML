@@ -14,6 +14,7 @@ public:
 	void move(float fDeltaTime, float fspeed);
 	void setPosition(float fX, float fY);
 	void setRotation(float fAngle);
+	void setDirection(sf::Vector2f* oOrientation);
 
 	float m_fX;
 	float m_fY;

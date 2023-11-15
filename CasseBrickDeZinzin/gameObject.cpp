@@ -135,6 +135,10 @@ void GameObject::setRotation(float fAngle) {
 	m_oGraphic->setRotation(fAngle);
 }
 
+void GameObject::setDirection(sf::Vector2f* oOrientation) {
+	m_oOrientation = (*oOrientation);
+}
+
 //void GameObject::rotate(sf::Vector2i* oMousePosition) {
 //	if (oMousePosition->y < m_fY) {
 //		setRotation(-atan2(oMousePosition->x - m_fX, oMousePosition->y - m_fY) * 180 / 3.14159);
