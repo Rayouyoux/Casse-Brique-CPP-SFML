@@ -11,13 +11,11 @@
 int main(int argc, char** argv)
 {
     Window* oWindow = new Window(640, 480, "SFML");
-    /*sf::RenderWindow oWindow(sf::VideoMode(640, 480), "SFML");*/
 
     Cannon* oCannon = new Cannon(320, 460, 20, 100, oWindow);
-    Brick* oBrick1 = new Brick(0, 320, 240, 100, 100, oWindow);
-    Brick* oBrick2 = new Brick(0, 340, 290, 90, 90, oWindow);
+    Brick* oBrick1 = new Brick(3, 320, 240, 100, 100, oWindow);
+    Brick* oBrick2 = new Brick(2, 150, 0, 90, 90, oWindow);
     Ball* oBall = new Ball(0, 0, 50, oWindow);
-    oBrick2->m_oGraphic->setFillColor(sf::Color(255, 0, 0));
 
     sf::Clock oClock;
     float fDeltaTime = 0;
@@ -31,17 +29,19 @@ int main(int argc, char** argv)
                 oWindow->close();
         }
         sf::Vector2i oMousePosition = sf::Mouse::getPosition(*oWindow->m_oWindow);
-        //oCircle->setPosition(oMousePosition.x, oMousePosition.y);
+        oBall->setPosition(oMousePosition.x, oMousePosition.y);
 
         /*oCircle->move(fDeltaTime, 200.f);*/
-        /*oRectangle2->move(fDeltaTime, sf::Vector2i(-1, -1), 100.f);*/
+        /*oBrick2->move(fDeltaTime, 300.f);*/
+
         oCannon->rotate(&oMousePosition);
 
-        /*oCircle->handleCollision(oRectangle2);
-        oCircle->handleCollision(&oWindow);*/
-        if (oMousePosition.y > oCannon->m_fY) {
-            oBrick2->handleCollision(oBrick1);
-        }
+        oBall->handleCollision(oBrick1);
+        oBall->handleCollision(oWindow->m_oWindow);
+
+        /*oBrick2->handleCollision(oBrick1);
+        oBrick2->handleCollision(oWindow->m_oWindow);*/
+
         oWindow->display();
 
         fDeltaTime = oClock.restart().asSeconds();

@@ -61,44 +61,65 @@ void PhysicalGameObject::handleCollision(GameObject* oGameObject) {
 
 
 int PhysicalGameObject::sideCollision(GameObject* oGameObject) {
-	sf::Vector2f* oInverseVector = new sf::Vector2f(0, 0);
-	float fdistance;
-	if (m_fHeight < oGameObject->m_fHeight) {
-		oInverseVector->x = m_oOrientation.x;
-		oInverseVector->y = m_oOrientation.y;
-		maths::invertVector(oInverseVector);
-		std::cout << "Inverse Vector x :" << oInverseVector->x << " y :" << oInverseVector->y << std::endl;
-		fdistance = m_oOrientation.y < 0 ? oGameObject->m_fY + oGameObject->m_fHeight - m_fY : 
-											m_fY + m_fHeight - oGameObject->m_fY;
-		std::cout <<"Distance : " << fdistance << std::endl;
-	}
-	else {
-		oInverseVector->x = oGameObject->m_oOrientation.x;
-		oInverseVector->y = oGameObject->m_oOrientation.y;
-		maths::invertVector(oInverseVector);
-		fdistance = oGameObject->m_oOrientation.y < 0 ? m_fY + m_fHeight - oGameObject->m_fY : 
-														oGameObject->m_fY + oGameObject->m_fHeight - m_fY;
-	}
-	sf::Vector2f* oVector = new sf::Vector2f(0, fdistance);
-	if (m_oOrientation.y > 0) {
-		oVector->y = -fdistance;
-	}
-	std::cout << "x :" << oVector->x << " y :" << oVector->y << std::endl;
-	float fAngle = maths::getAngle(oInverseVector, oVector);
-	std::cout << "Angle : " << fAngle << std::endl;
-	float fLength = maths::getLength(fdistance, fAngle);
-	std::cout << "Length : " << fLength << std::endl;
-	oInverseVector->x *= fLength;
-	oInverseVector->y *= fLength;
-	std::cout << "Inverse Vector Before Pos x :" << oInverseVector->x << " y :" << oInverseVector->y << std::endl;
-	if (m_fHeight < oGameObject->m_fHeight) {
-		setPosition(m_fX + oInverseVector->x, m_fY + oInverseVector->y);
-	}
-	else {
-		setPosition(oGameObject->m_fX + oInverseVector->x, oGameObject->m_fY + oInverseVector->y);
-	}
+	sf::Vector2f* oSegmentVector = new sf::Vector2f(0, 0);
+	std::pair<int, float> fLenghtMax (0, 0);
+	float fLength;
+	float fCoefInverseVector[2];
+	float fCoefVector[2];
+	float fCoordIntersection[2];
+	float fX;
+	float fY;
+	float fSegmentA[2];
+	float fSegmentB[2];
+	sf::Vector2f* oInverseVector = new sf::Vector2f(m_oOrientation.x, m_oOrientation.y);
+	maths::invertVector(oInverseVector);
 
-	return 0;
+	for (int i = 0; i < 4; i++) {
+		fX = i % 2 == 0 ? m_fX : m_fX + m_fWidth;
+		fY = i / 2 == 0 ? m_fY : m_fY + m_fHeight;
+		maths::getCoefficientLine(oInverseVector, fX, fY, fCoefInverseVector);
+		for (int j = 0; j < 4; j++) {
+			if (j % 2 == 0) {
+				fSegmentA[0] = oGameObject->m_fX;
+				fSegmentA[1] = oGameObject->m_fY;
+			}
+			else if (j == 1) {
+				fSegmentA[0] = oGameObject->m_fX + oGameObject->m_fWidth;
+				fSegmentA[1] = oGameObject->m_fY;
+			}
+			else {
+				fSegmentA[0] = oGameObject->m_fX;
+				fSegmentA[1] = oGameObject->m_fY + oGameObject->m_fHeight;
+			}
+
+			if (j % 2 == 1) {
+				fSegmentB[0] = oGameObject->m_fX + oGameObject->m_fWidth;
+				fSegmentB[1] = oGameObject->m_fY + oGameObject->m_fHeight;
+			}
+			else if (j == 0) {
+				fSegmentB[0] = oGameObject->m_fX + oGameObject->m_fWidth;
+				fSegmentB[1] = oGameObject->m_fY;
+			}
+			else {
+				fSegmentB[0] = oGameObject->m_fX;
+				fSegmentB[1] = oGameObject->m_fY + oGameObject->m_fHeight;
+			}
+			oSegmentVector->x = fSegmentB[0] - fSegmentA[0];
+			oSegmentVector->y = fSegmentB[1] - fSegmentA[1];
+			maths::normalizeVector(oSegmentVector);
+			maths::getCoefficientLine(oSegmentVector, fSegmentA[0], fSegmentA[1], fCoefVector);
+			maths::getIntersectionLine(fCoefInverseVector[0], fCoefInverseVector[1], fCoefVector[0], fCoefVector[1], fCoordIntersection);
+			if (maths::isPointOnSegment(fSegmentA[0], fSegmentA[1], fSegmentB[0], fSegmentB[1], fCoordIntersection[0], fCoordIntersection[1])) {
+				fLength = maths::getLengthSegment(fSegmentA[0], fSegmentA[1], fCoordIntersection[0], fCoordIntersection[1]);
+				if (fLength > fLenghtMax.second) {
+					fLenghtMax.first = j == 2 || j == 3 ? 1 : 2;
+					fLenghtMax.second = fLength;
+				}
+			}
+		}
+	}
+	std::cout << fLenghtMax.first << std::endl;
+	return fLenghtMax.first;
 }
 
 void PhysicalGameObject::handleCollision(sf::RenderWindow* oWindow) {
