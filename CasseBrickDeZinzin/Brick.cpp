@@ -1,5 +1,16 @@
 #include "Brick.h"
 #include "maths.h"
+#include <map>
+
+std::map<int, sf::Color> HealthColorStates{
+	{1, sf::Color(82, 214, 0)},
+	{2, sf::Color(242, 214, 0)},
+	{3, sf::Color(255, 106, 0)},
+	{4, sf::Color(219, 18, 33)},
+	{5, sf::Color(163, 29, 39)},
+	{6, sf::Color(128, 33, 40)},
+	{7, sf::Color(89, 30, 34)}
+};
 
 Brick::Brick(int iLife, float fX, float fY, float fWidth, float fHeight, Window* oWindow) :
 	PhysicalGameObject(fX, fY, fWidth, fHeight, oWindow) {
@@ -15,15 +26,7 @@ void Brick::takeDamage() {
 }
 
 void Brick::setColor() {
-	if (m_iLife == 3) {
-		m_oGraphic->setFillColor(sf::Color(0, 255, 0));
-	}
-	else if(m_iLife == 2){
-		m_oGraphic->setFillColor(sf::Color(255, 127, 0));
-	}
-	else if (m_iLife == 1) {
-		m_oGraphic->setFillColor(sf::Color(255, 0, 0));
-	}
+	m_oGraphic->setFillColor(HealthColorStates[m_iLife]);
 }
 
 void Brick::onCollisionEnter(int side) {
