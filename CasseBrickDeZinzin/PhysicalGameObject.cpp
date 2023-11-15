@@ -47,6 +47,7 @@ void PhysicalGameObject::handleCollision(GameObject* oGameObject) {
 			m_oObjectCollision.push_back(oGameObject);
 		}
 		else {
+			//onCollisionEnter(sideCollision(oGameObject));
 			//onCollisionStay(sideCollision(oGameObject));
 		}
 	}
@@ -65,60 +66,109 @@ int PhysicalGameObject::sideCollision(GameObject* oGameObject) {
 	std::pair<int, float> fLenghtMax (0, 0);
 	float fLength;
 	float fCoefInverseVector[2];
-	float fCoefVector[2];
-	float fCoordIntersection[2];
+	/*float fCoefVector[2];
+	float fCoordIntersection[2];*/
 	float fX;
 	float fY;
-	float fSegmentA[2];
-	float fSegmentB[2];
-	sf::Vector2f* oInverseVector = new sf::Vector2f(m_oOrientation.x, m_oOrientation.y);
-	maths::invertVector(oInverseVector);
+	float fIntersectionX = 0;
+	float fIntersectionY = 0;
+	float fPointA[2];
+	float fPointB[2];
+	sf::Vector2f oInverseVector(m_oOrientation.x, m_oOrientation.y);
+	maths::invertVector(&oInverseVector);
+
+	Window::Clear();
 
 	for (int i = 0; i < 4; i++) {
+		/*fX = m_fX + m_fWidth;
+		fY = m_fY + m_fHeight;*/
 		fX = i % 2 == 0 ? m_fX : m_fX + m_fWidth;
 		fY = i / 2 == 0 ? m_fY : m_fY + m_fHeight;
-		maths::getCoefficientLine(oInverseVector, fX, fY, fCoefInverseVector);
+		maths::getCoefficientLine(&oInverseVector, fX, fY, fCoefInverseVector);
+		//std::cout << fCoefInverseVector[0] << ";" << fCoefInverseVector[1] << std::endl;
 		for (int j = 0; j < 4; j++) {
-			if (j % 2 == 0) {
-				fSegmentA[0] = oGameObject->m_fX;
-				fSegmentA[1] = oGameObject->m_fY;
+			if (j == 0 ) {
+				fPointA[0] = oGameObject->m_fX;
+				fPointA[1] = oGameObject->m_fY;
+
+				fPointB[0] = oGameObject->m_fX + oGameObject->m_fWidth;
+				fPointB[1] = oGameObject->m_fY;
 			}
-			else if (j == 1) {
-				fSegmentA[0] = oGameObject->m_fX + oGameObject->m_fWidth;
-				fSegmentA[1] = oGameObject->m_fY;
+			else
+			if (j == 1) {
+				fPointA[0] = oGameObject->m_fX + oGameObject->m_fWidth;
+				fPointA[1] = oGameObject->m_fY;
+
+				fPointB[0] = oGameObject->m_fX + oGameObject->m_fWidth;
+				fPointB[1] = oGameObject->m_fY + oGameObject->m_fHeight;
 			}
-			else {
-				fSegmentA[0] = oGameObject->m_fX;
-				fSegmentA[1] = oGameObject->m_fY + oGameObject->m_fHeight;
+			else
+			if (j == 2) {
+
+				fPointA[0] = oGameObject->m_fX;
+				fPointA[1] = oGameObject->m_fY + oGameObject->m_fHeight;
+
+				fPointB[0] = oGameObject->m_fX + oGameObject->m_fWidth;
+				fPointB[1] = oGameObject->m_fY + oGameObject->m_fHeight;
+			}
+			else
+			if (j == 3) {
+
+				fPointA[0] = oGameObject->m_fX;
+				fPointA[1] = oGameObject->m_fY;
+
+				fPointB[0] = oGameObject->m_fX;
+				fPointB[1] = oGameObject->m_fY + oGameObject->m_fHeight;
 			}
 
-			if (j % 2 == 1) {
-				fSegmentB[0] = oGameObject->m_fX + oGameObject->m_fWidth;
-				fSegmentB[1] = oGameObject->m_fY + oGameObject->m_fHeight;
-			}
-			else if (j == 0) {
-				fSegmentB[0] = oGameObject->m_fX + oGameObject->m_fWidth;
-				fSegmentB[1] = oGameObject->m_fY;
+			if(fPointA[0] == fPointB[0]){
+				fIntersectionX = fPointA[0];
+				fIntersectionY = maths::getVerticalIntersection(fCoefInverseVector[0], fCoefInverseVector[1], fIntersectionX);
 			}
 			else {
-				fSegmentB[0] = oGameObject->m_fX;
-				fSegmentB[1] = oGameObject->m_fY + oGameObject->m_fHeight;
+				fIntersectionY = fPointA[1];
+				fIntersectionX = maths::getHorizontalIntersection(fCoefInverseVector[0], fCoefInverseVector[1], fIntersectionY);
 			}
-			oSegmentVector->x = fSegmentB[0] - fSegmentA[0];
-			oSegmentVector->y = fSegmentB[1] - fSegmentA[1];
-			maths::normalizeVector(oSegmentVector);
-			maths::getCoefficientLine(oSegmentVector, fSegmentA[0], fSegmentA[1], fCoefVector);
-			maths::getIntersectionLine(fCoefInverseVector[0], fCoefInverseVector[1], fCoefVector[0], fCoefVector[1], fCoordIntersection);
-			if (maths::isPointOnSegment(fSegmentA[0], fSegmentA[1], fSegmentB[0], fSegmentB[1], fCoordIntersection[0], fCoordIntersection[1])) {
-				fLength = maths::getLengthSegment(fSegmentA[0], fSegmentA[1], fCoordIntersection[0], fCoordIntersection[1]);
+
+			Window::Line oLine1;
+
+			oLine1.p[0].position.x = fX;
+			oLine1.p[0].position.y = fY;
+
+			oLine1.p[1].position.x = fX + 100 * oInverseVector.x;
+			oLine1.p[1].position.y = fY + 100 * oInverseVector.y;
+
+			Window::m_oDebugs.push_back(oLine1);
+
+			Window::Line oLine2;
+
+			oLine2.p[0].position.x = fPointA[0];
+			oLine2.p[0].position.y = fPointA[1];
+
+			oLine2.p[1].position.x = fPointB[0];
+			oLine2.p[1].position.y = fPointB[1];
+
+			Window::m_oDebugs.push_back(oLine2);
+
+			bool IsInSegment1 = maths::isPointOnSegment(fPointA[0], fPointA[1], fPointB[0], fPointB[1], fIntersectionX, fIntersectionY);
+			bool IsInSegment2 = maths::isPointOnSegment(oLine1.p[0].position.x, oLine1.p[0].position.y, oLine1.p[1].position.x, oLine1.p[1].position.y, fIntersectionX, fIntersectionY);
+
+			if (IsInSegment1 && IsInSegment2 )
+			{
+				fLength = maths::getLengthSegment(fPointA[0], fPointA[1], fIntersectionX, fIntersectionY);
+				std::cout << fLength << std::endl;
 				if (fLength > fLenghtMax.second) {
-					fLenghtMax.first = j == 2 || j == 3 ? 1 : 2;
+					setDebugPosition(fIntersectionX, fIntersectionY);
+					fLenghtMax.first = j == 1 || j == 2 ? 1 : 2;
 					fLenghtMax.second = fLength;
+
+					
 				}
 			}
+
 		}
 	}
-	std::cout << fLenghtMax.first << std::endl;
+	//std::cout << fLenghtMax.first << std::endl;
 	return fLenghtMax.first;
 }
 

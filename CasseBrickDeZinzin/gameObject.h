@@ -13,7 +13,11 @@ public:
 
 	void move(float fDeltaTime, float fspeed);
 	void setPosition(float fX, float fY);
+	void setOrigin(float fX, float fY);
 	void setRotation(float fAngle);
+	void setColor(const sf::Color& oColor);
+	void setDebugPosition(float fX, float fY);
+	void draw(Window* oWindow);
 
 	float m_fX;
 	float m_fY;
@@ -21,6 +25,8 @@ public:
 	float m_fHeight;
 	sf::Shape* m_oGraphic;
 	sf::Vector2f m_oOrientation;
+	sf::Shape* m_oDebugPoint;
+	bool m_bDrawDebug;
 
 	~GameObject();
 };

@@ -7,7 +7,8 @@ Cannon::Cannon(float fX, float fY, float fWidth, float fHeight, Window* oWindow)
 }
 
 void Cannon::rotate(sf::Vector2i* oMousePosition) {
-	if (oMousePosition->y < m_fY) {
+	//if (oMousePosition->y < m_fY) {
+	{
 		setRotation(-atan2(oMousePosition->x - m_fX, oMousePosition->y - m_fY) * 180 / 3.14159);
 	}
 }

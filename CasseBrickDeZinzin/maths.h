@@ -14,7 +14,8 @@ namespace maths {
 	float normVector(sf::Vector2f* oVector);
 	void invertVector(sf::Vector2f* orientationVector);
 	void getCoefficientLine(sf::Vector2f* oVector, float fX, float fY, float* fResult);
-	void getIntersectionLine(float fA1, float fB1, float fA2, float fB2, float* fResult);
+	float getVerticalIntersection(float fA, float fB, float fX);
+	float getHorizontalIntersection(float fA, float fB, float fY);
 	bool isPointOnSegment(float fAX, float fAY, float fBX, float fBY, float fX, float fY);
 	float getLengthSegment(float fAX, float fAY, float fBX, float fBY);
 }

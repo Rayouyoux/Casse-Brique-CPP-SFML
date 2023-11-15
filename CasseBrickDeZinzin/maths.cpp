@@ -4,6 +4,13 @@
 namespace maths {
 
 	bool IsPointInside(float f, float fMin, float fMax) {
+		if (fMin > fMax)
+		{
+			float fSwap = fMin;
+			fMin = fMax;
+			fMax = fSwap;
+		}
+
 		return f >= fMin && f <= fMax;
 	}
 
@@ -44,25 +51,28 @@ namespace maths {
 	}
 
 	void getCoefficientLine(sf::Vector2f* oVector, float fX, float fY, float* fResult) {
-		fResult[0] = oVector->x == 0 ? 0 : oVector->y / oVector->x;
-		fResult[1] = oVector->x == 0 ? fY : ((-oVector->y * fX) / oVector->x) + fY;
+		fResult[0] = oVector->y / oVector->x;
+		fResult[1] = ((-oVector->y * fX) / oVector->x) + fY;
 	}
 
-	void getIntersectionLine(float fA1, float fB1, float fA2, float fB2, float* fResult) {
-		/*fResult[1] = fA2 - fA1 == 0 ? 0 : (-fA1 * fB2 + fA2 * fB1) / (fA2 - fA1);
-		fResult[0] = fA2 == 0 ? 0 : (fResult[1] - fB2) / fA2;*/
-		fResult[0] = fA1 - fA2 == 0 ? 0 : (fB2 * fB1) / (fA1 - fA2);
-		fResult[1] = fA1 * (fResult[0]) + fB1;
+	float getVerticalIntersection(float fA, float fB, float fX) {
+		return fA * fX + fB;
+	}
+
+	float getHorizontalIntersection(float fA, float fB, float fY) {
+		return (fY - fB) / fA;
 	}
 
 	bool isPointOnSegment(float fAX, float fAY, float fBX, float fBY, float fX, float fY) {
-		/*std::cout << "x :" << fX << " y : " << fY << std::endl;*/
-		/*return (fAX <= fX <= fBX) && (fAY <= fY <= fBY);*/
+		//std::cout << "A : x :" << fAX << " y : " << fAY << std::endl;
+		//std::cout << "I : x :" << fX << " y : " << fY << std::endl;
+		//std::cout << "B : x :" << fBX << " y : " << fBY << std::endl << std::endl;
 		return IsPointInside(fX, fAX, fBX) && IsPointInside(fY, fAY, fBY);
 	}
 
 	float getLengthSegment(float fAX, float fAY, float fBX, float fBY) {
 		sf::Vector2f* oVector = new sf::Vector2f(fBX - fAX, fBY - fAY);
+		/*std::cout << "B : x :" << fBX << " y : " << fBY << std::endl << std::endl;*/
 		return normVector(oVector);
 	}
 }
