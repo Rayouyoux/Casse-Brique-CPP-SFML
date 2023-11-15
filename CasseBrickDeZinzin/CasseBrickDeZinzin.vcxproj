@@ -135,6 +135,7 @@
     <ClCompile Include="Cannon.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="inputManager.cpp" />
+    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maths.cpp" />
     <ClCompile Include="PhysicalGameObject.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Cannon.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="inputManager.h" />
+    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="maths.h" />
     <ClInclude Include="PhysicalGameObject.h" />
     <ClInclude Include="window.h" />

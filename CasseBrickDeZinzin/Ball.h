@@ -5,6 +5,7 @@
 class Ball : public PhysicalGameObject
 {
 public:
+
 	Ball(float fX, float fY, float fRadius, Window* oWindow);
 	~Ball();
 
