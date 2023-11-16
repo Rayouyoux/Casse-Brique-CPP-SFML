@@ -2,9 +2,9 @@
 #include "maths.h"
 #include "GameManager.h"
 
-Ball::Ball(float fX, float fY, float fRadius, Window* oWindow, GameManager* oGameManager) :
-	PhysicalGameObject(fX, fY, fRadius, oWindow, oGameManager) {
-	/*oGameManager->m_voMoveObject.push_back(this);*/
+Ball::Ball(float fX, float fY, float fRadius) :
+	PhysicalGameObject(fX, fY, fRadius) {
+	m_oIteratorMove = GameManager::AddMovingGameObject(this);
 }
 
 void Ball::onCollisionEnter(int side) {
@@ -20,5 +20,5 @@ void Ball::onCollisionExit(int side) {
 }
 
 Ball::~Ball(){
-
+	GameManager::RemoveMovingGameObject(m_oIteratorMove);
 }

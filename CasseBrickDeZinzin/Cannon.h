@@ -10,9 +10,9 @@ class Window;
 class Cannon : public GameObject
 {
 public:
-	Cannon(float fX, float fY, float fWidth, float fHeight, Window* oWindow);
-	void shoot(float fMouseX, float fMouseY, Window* oWindow, GameManager* oGameManager);
+	Cannon(float fX, float fY, float fWidth, float fHeight);
+	void shoot(float fMouseX, float fMouseY);
 	void rotate(float fX, float fY);
-	~Cannon();
+	virtual ~Cannon();
 };
 

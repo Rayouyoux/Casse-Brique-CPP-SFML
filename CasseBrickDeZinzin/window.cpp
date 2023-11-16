@@ -3,6 +3,8 @@
 #include "gameObject.h"
 
 //std::vector<Window::Line> Window::m_oDebugs;
+std::list<GameObject*> Window::m_voWindowObjects;
+sf::RenderWindow* Window::m_oWindow;
 
 Window::Window(int iWidth, int iHeight, std::string sWindowName) {
 
@@ -15,8 +17,9 @@ Window::Window(int iWidth, int iHeight, std::string sWindowName) {
 
 void Window::display() {
 	m_oWindow->clear();
-	for (int i = 0; i < m_voWindowObjects.size(); i++) {
-		m_voWindowObjects[i]->draw(this);
+
+	for (auto it = m_voWindowObjects.begin(); it != m_voWindowObjects.end(); ++it) {
+		(*it)->draw();
 	}
 
 	/*for (int i = 0; i < m_oDebugs.size(); i++) {

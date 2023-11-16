@@ -6,16 +6,16 @@
 #include <SFML/Graphics.hpp>
 
 
-PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fWidth, float fHeight, Window* oWindow, GameManager* oGameManager) : 
-					GameObject (fX, fY, fWidth, fHeight, oWindow) {
+PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fWidth, float fHeight) : 
+					GameObject (fX, fY, fWidth, fHeight) {
 	m_bWindowCollision = false;
-	oGameManager->m_voPhysicalGameObjects.push_back(this);
+	m_oIterator = GameManager::AddPhysicalGameObject(this);
 }
 
-PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fRadius, Window* oWindow, GameManager* oGameManager) :
-	GameObject(fX, fY, fRadius, oWindow) {
+PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fRadius) :
+	GameObject(fX, fY, fRadius) {
 	m_bWindowCollision = false;
-	oGameManager->m_voPhysicalGameObjects.push_back(this);
+	m_oIterator = GameManager::AddPhysicalGameObject(this);
 }
 
 void PhysicalGameObject::handleCollision(PhysicalGameObject* oGameObject) {
@@ -164,9 +164,7 @@ int PhysicalGameObject::sideCollision(PhysicalGameObject* oGameObject) {
 				if (fLength > fLenghtMax.second) {
 					setDebugPosition(fIntersectionX, fIntersectionY);
 					fLenghtMax.first = j == 1 || j == 2 ? 1 : 2;
-					fLenghtMax.second = fLength;
-
-					
+					fLenghtMax.second = fLength;	
 				}
 			}
 
@@ -176,12 +174,12 @@ int PhysicalGameObject::sideCollision(PhysicalGameObject* oGameObject) {
 	return fLenghtMax.first;
 }
 
-void PhysicalGameObject::handleCollision(sf::RenderWindow* oWindow) {
+void PhysicalGameObject::handleCollision() {
 	int sideCollsion = 0;
-	if (m_fX < 0 || m_fX + m_fWidth > oWindow->getSize().x) {
+	if (m_fX < 0 || m_fX + m_fWidth > Window::m_oWindow->getSize().x) {
 		sideCollsion = 1;
 	}
-	else if (m_fY < 0 || m_fY + m_fHeight > oWindow->getSize().y) {
+	else if (m_fY < 0 || m_fY + m_fHeight > Window::m_oWindow->getSize().y) {
 		sideCollsion = 2;
 	}
 	if (sideCollsion != 0) {
@@ -215,5 +213,5 @@ void PhysicalGameObject::onCollisionExit(int side) {
 }
 
 PhysicalGameObject::~PhysicalGameObject() {
-
+	GameManager::RemovePhysicalGameObject(m_oIterator);
 }

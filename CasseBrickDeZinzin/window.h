@@ -1,7 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
+#include <list>
 
 #include <SFML/Graphics.hpp>
 
@@ -24,8 +23,8 @@ public:
 	int m_iWidth;
 	int m_iHeight;
 	std::string m_sWindowName;
-	std::vector<GameObject*> m_voWindowObjects;
-	sf::RenderWindow* m_oWindow;
+	static std::list<GameObject*> m_voWindowObjects;
+	static sf::RenderWindow* m_oWindow;
 
 	/*static std::vector<Line> m_oDebugs;*/
 

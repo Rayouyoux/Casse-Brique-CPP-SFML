@@ -1,18 +1,20 @@
 #include "Cannon.h"
 #include "window.h"
 
-Cannon::Cannon(float fX, float fY, float fWidth, float fHeight, Window* oWindow) :
-		GameObject(fX, fY, fWidth, fHeight, oWindow) {
+Cannon::Cannon(float fX, float fY, float fWidth, float fHeight) :
+		GameObject(fX, fY, fWidth, fHeight) {
 }
 
-void Cannon::shoot(float fMouseX, float fMouseY, Window* oWindow, GameManager* oGameManager) {
-	Ball* newBall = new Ball(m_fX, m_fY, 20, oWindow, oGameManager);
-	m_oOrientation = maths::getOrientationVector(m_fX, m_fY, fMouseX, fMouseY);
+void Cannon::shoot(float fMouseX, float fMouseY) {
+	Ball* newBall = new Ball(m_fX, m_fY, 20);
+	m_oOrientation = maths::getOrientationVector(m_fX, fMouseY, fMouseX, m_fY);
+	std::cout << "x: " << m_oOrientation.x << " y : " << m_oOrientation.y << std::endl;
 	newBall->setDirection(&m_oOrientation);
 }
 
 void Cannon::rotate(float fX, float fY) {
 	if (fY < m_fY) {
+		setOrigin(0.5, 0);
 		setRotation(-atan2(fX - m_fX, fY - m_fY) * 180 / 3.14159);
 	}
 }

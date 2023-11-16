@@ -1,15 +1,15 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <vector>
+
 class Window;
 
 class GameObject {
 
 public:
 
-	GameObject(float fX, float fY, float fWidth, float fHeight, Window* oWindow);
-	GameObject(float iX, float iY, float iRadius, Window* oWindow);
+	GameObject(float fX, float fY, float fWidth, float fHeight);
+	GameObject(float iX, float iY, float iRadius);
 
 	void move(float fDeltaTime, float fspeed);
 	void setPosition(float fX, float fY);
@@ -17,7 +17,7 @@ public:
 	void setRotation(float fAngle);
 	void setColor(const sf::Color& oColor);
 	void setDebugPosition(float fX, float fY);
-	void draw(Window* oWindow);
+	void draw();
 	void setDirection(sf::Vector2f* oDirection);
 
 	float m_fX;
@@ -29,7 +29,8 @@ public:
 	sf::Shape* m_oDebugPoint;
 	bool m_bDrawDebug;
 	bool m_bMove;
+	bool m_bDestroy;
 
-	~GameObject();
+	virtual ~GameObject();
 };
 

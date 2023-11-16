@@ -62,15 +62,11 @@ namespace maths {
 	}
 
 	bool isPointOnSegment(float fAX, float fAY, float fBX, float fBY, float fX, float fY) {
-		//std::cout << "A : x :" << fAX << " y : " << fAY << std::endl;
-		//std::cout << "I : x :" << fX << " y : " << fY << std::endl;
-		//std::cout << "B : x :" << fBX << " y : " << fBY << std::endl << std::endl;
 		return IsPointInside(fX, fAX, fBX) && IsPointInside(fY, fAY, fBY);
 	}
 
 	float getLengthSegment(float fAX, float fAY, float fBX, float fBY) {
 		sf::Vector2f* oVector = new sf::Vector2f(fBX - fAX, fBY - fAY);
-		/*std::cout << "B : x :" << fBX << " y : " << fBY << std::endl << std::endl;*/
 		return normVector(oVector);
 	}
 }

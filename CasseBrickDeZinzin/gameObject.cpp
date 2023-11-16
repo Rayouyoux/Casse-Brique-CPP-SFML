@@ -3,7 +3,9 @@
 #include "window.h"
 #include <iostream>
 
-GameObject::GameObject(float fX, float fY, float fWidth, float fHeight, Window* oWindow) {
+#include <list>
+
+GameObject::GameObject(float fX, float fY, float fWidth, float fHeight) {
 	m_fX = fX;
 	m_fY = fY;
 	m_fWidth = fWidth;
@@ -13,27 +15,29 @@ GameObject::GameObject(float fX, float fY, float fWidth, float fHeight, Window* 
 	m_oGraphic->setPosition(m_fX, m_fY);
 
 
-	oWindow->m_voWindowObjects.push_back(this);
+	Window::m_voWindowObjects.push_back(this);
 
 	m_oDebugPoint = new sf::CircleShape(5);
 	m_oDebugPoint->setFillColor(sf::Color::Red);
 	m_bDrawDebug = false;
 
 	m_bMove = false;
+	m_bDestroy = false;
 }
 
-GameObject::GameObject(float fX, float fY, float fRadius, Window* oWindow) {
+GameObject::GameObject(float fX, float fY, float fRadius) {
 	m_fX = fX;
 	m_fY = fY;
 	m_fWidth = fRadius * 2;
 	m_fHeight = fRadius * 2;
 	m_oGraphic = new sf::CircleShape(fRadius);
 	m_oGraphic->setPosition(m_fX, m_fY);
-	oWindow->m_voWindowObjects.push_back(this);
+	Window::m_voWindowObjects.push_back(this);
 	m_oDebugPoint = new sf::CircleShape(5);
 	m_oDebugPoint->setFillColor(sf::Color::Red);
 	m_bDrawDebug = false;
 	m_bMove = false;
+	m_bDestroy = false;
 }
 
 void GameObject::setPosition(float fX, float fY) {
@@ -76,11 +80,11 @@ void GameObject::setDebugPosition(float fX, float fY)
 	m_oDebugPoint->setPosition(fX, fY);
 }
 
-void GameObject::draw(Window* oWindow) {
-	oWindow->m_oWindow->draw(*m_oGraphic);
+void GameObject::draw() {
+	Window::m_oWindow->draw(*m_oGraphic);
 
 	if(m_bDrawDebug)
-		oWindow->m_oWindow->draw(*m_oDebugPoint);
+		Window::m_oWindow->draw(*m_oDebugPoint);
 }
 
 GameObject::~GameObject() {}

@@ -6,21 +6,26 @@
 #include "Brick.h"
 #include "Ball.h"
 
+std::list<PhysicalGameObject*> GameManager::m_voPhysicalGameObjects;
+std::list<GameObject*> GameManager::m_voMoveObject;
+std::list<Brick*> GameManager::m_voBricks;
+
 GameManager::GameManager() {
 
     m_oWindow = new Window(640, 480, "SFML");
 
-    m_oCannon = new Cannon(320, 460, 20, 100, m_oWindow);
-    m_oBrick1 = new Brick(3, 320, 240, 100, 100, m_oWindow, this);
-    /*m_oBall = new Ball(0, 0, 20, m_oWindow, this);*/
+    m_oCannon = new Cannon(320, 460, 20, 100);
+    m_oBrick1 = new Brick(3, 320, 240, 100, 100, false);
+
     setLevel();
-    /*Cannon* oLine = new Cannon(0, 0, 5, 50, oWindow);
-    oLine->setColor(sf::Color::Red);*/
 
-
-    /*sf::Clock oClock;*/
     m_fDeltaTime = 0;
-    /*int bFixe = 0;*/
+
+    /* --- DEBUG --- */
+    /*Cannon* oLine = new Cannon(0, 0, 5, 50, oWindow);
+    oLine->setColor(sf::Color::Red);
+    int bFixe = 0;*/
+    
     gameLoop();
 }
 
@@ -48,6 +53,10 @@ void GameManager::gameLoop() {
         m_oCannon->rotate(m_fMousePosition[0], m_fMousePosition[1]);
 
         handleCollision();
+        int i = tryDestroy();
+        if (i != -1) {
+            destroy(i);
+        }
 
         m_oWindow->display();
 
@@ -57,8 +66,7 @@ void GameManager::gameLoop() {
 
 void GameManager::setLevel() {
     for (int i = 0; i < 5; i++) {
-        Brick* oBrick = new Brick(3, 70 + i * 100, 80, 80, 40, m_oWindow, this);
-        m_voBricks.push_back(oBrick);
+        Brick* oBrick = new Brick(3, 70 + i * 100, 80, 80, 40, false);
     }
 }
 
@@ -71,35 +79,105 @@ void GameManager::eventLoop() {
         }
         else if (oEvent.type == sf::Event::MouseMoved)
         {
-            m_fMousePosition[0] = oEvent.mouseMove.x;
-            m_fMousePosition[1] = oEvent.mouseMove.y;
+            m_fMousePosition[0] = sf::Mouse::getPosition(*m_oWindow->m_oWindow).x;
+            m_fMousePosition[1] = sf::Mouse::getPosition(*m_oWindow->m_oWindow).y;
         }
         else if (oEvent.type == sf::Event::MouseButtonPressed) {
             if (oEvent.mouseButton.button == sf::Mouse::Left) {
                 /*bFixe = ( bFixe + 1 ) % 3;*/
-                m_oCannon->shoot(m_fMousePosition[0], m_fMousePosition[1], m_oWindow, this);
+                m_oCannon->shoot(m_fMousePosition[0], m_fMousePosition[1]);
             }
         }
     }
 }
 
 void GameManager::handleCollision() {
-    for (int i = 0; i < m_voPhysicalGameObjects.size(); i++) {
-        if (m_voPhysicalGameObjects[i]->m_bMove) {
-            m_voPhysicalGameObjects[i]->handleCollision(m_oWindow->m_oWindow);
+
+
+    for (auto it = m_voPhysicalGameObjects.begin(); it != m_voPhysicalGameObjects.end(); ++it)
+    {
+        if ((*it)->m_bMove) 
+        {
+            (*it)->handleCollision();
         }
-        for (int j = i + 1; j < m_voPhysicalGameObjects.size(); j++) {
-            if (m_voPhysicalGameObjects[i]->m_bMove || m_voPhysicalGameObjects[j]->m_bMove) {
-                m_voPhysicalGameObjects[i]->handleCollision(m_voPhysicalGameObjects[j]);
+
+        auto it2 = it;
+        ++it2;
+        for(it2; it2 != m_voPhysicalGameObjects.end(); ++it2)
+        {
+            if ((*it)->m_bMove || (*it2)->m_bMove)
+            {
+                (*it)->handleCollision(*it2);
             }
         }
     }
-    //m_oBall->handleCollision(m_oBrick1);
-    //m_oBall->handleCollision(m_oWindow->m_oWindow);
 }
 
 void GameManager::move() {
-    m_oBall->move(m_fDeltaTime, 200.f);
+    for (auto it = m_voMoveObject.begin(); it != m_voMoveObject.end(); ++it)
+    {
+       (*it)->move(m_fDeltaTime, 200.f);
+    }
+}
+
+int GameManager::tryDestroy() {
+
+    for (auto it = m_oWindow->m_voWindowObjects.begin(); it != m_oWindow->m_voWindowObjects.end(); ++it)
+    {
+        if ((*it)->m_bDestroy) {
+            std::cout << "hello";
+            return -1;
+        }
+    }
+    return -1;
+}
+
+void GameManager::destroy(int iIndice) {
+    /*GameObject* oGameObject = m_oWindow->m_voWindowObjects[iIndice];
+    m_oWindow->m_voWindowObjects.erase(m_oWindow->m_voWindowObjects.begin() + iIndice);
+    delete oGameObject;*/
+}
+
+std::list<PhysicalGameObject*>::iterator GameManager::AddPhysicalGameObject(PhysicalGameObject* go)
+{
+    m_voPhysicalGameObjects.push_back(go);
+    
+    auto it = m_voPhysicalGameObjects.end();
+    it--;
+    return it;
+}
+
+std::list<GameObject*>::iterator GameManager::AddMovingGameObject(GameObject* go)
+{
+    m_voMoveObject.push_back(go);
+
+    auto it = m_voMoveObject.end();
+    it--;
+    return it;
+}
+
+std::list<Brick*>::iterator GameManager::AddBrick(Brick* brick)
+{
+    m_voBricks.push_back(brick);
+
+    auto it = m_voBricks.end();
+    it--;
+    return it;
+}
+
+void GameManager::RemovePhysicalGameObject(std::list<PhysicalGameObject*>::iterator oIterator)
+{
+    m_voPhysicalGameObjects.erase(oIterator);
+}
+
+void GameManager::RemoveMovingGameObject(std::list<GameObject*>::iterator oIterator)
+{
+    m_voMoveObject.erase(oIterator);
+}
+
+void GameManager::RemoveBrick(std::list<Brick*>::iterator oIterator)
+{
+    m_voBricks.erase(oIterator);
 }
 
 GameManager::~GameManager() {
