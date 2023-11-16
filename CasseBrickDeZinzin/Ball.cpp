@@ -4,6 +4,7 @@
 
 Ball::Ball(float fX, float fY, float fRadius, Window* oWindow, GameManager* oGameManager) :
 	PhysicalGameObject(fX, fY, fRadius, oWindow, oGameManager) {
+	/*oGameManager->m_voMoveObject.push_back(this);*/
 }
 
 void Ball::onCollisionEnter(int side) {
