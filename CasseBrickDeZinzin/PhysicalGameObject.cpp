@@ -2,20 +2,23 @@
 #include "gameObject.h"
 #include "maths.h"
 #include "window.h"
+#include "GameManager.h"
 #include <SFML/Graphics.hpp>
 
 
-PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fWidth, float fHeight, Window* oWindow) : 
+PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fWidth, float fHeight, Window* oWindow, GameManager* oGameManager) : 
 					GameObject (fX, fY, fWidth, fHeight, oWindow) {
 	m_bWindowCollision = false;
+	oGameManager->m_voPhysicalGameObjects.push_back(this);
 }
 
-PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fRadius, Window* oWindow) :
+PhysicalGameObject::PhysicalGameObject(float fX, float fY, float fRadius, Window* oWindow, GameManager* oGameManager) :
 	GameObject(fX, fY, fRadius, oWindow) {
 	m_bWindowCollision = false;
+	oGameManager->m_voPhysicalGameObjects.push_back(this);
 }
 
-void PhysicalGameObject::handleCollision(GameObject* oGameObject) {
+void PhysicalGameObject::handleCollision(PhysicalGameObject* oGameObject) {
 	bool bCollisionX;
 	bool bCollisionY;
 
@@ -43,25 +46,26 @@ void PhysicalGameObject::handleCollision(GameObject* oGameObject) {
 	if (bCollisionX && bCollisionY) {
 		if (iIndex == m_oObjectCollision.end()) {
 			onCollisionEnter(sideCollision(oGameObject));
-			//oGameObject->onCollisionEnter(sideCollision(oGameObject));
+			oGameObject->onCollisionEnter(sideCollision(oGameObject));
 			m_oObjectCollision.push_back(oGameObject);
 		}
 		else {
-			//onCollisionEnter(sideCollision(oGameObject));
-			//onCollisionStay(sideCollision(oGameObject));
+			onCollisionStay(sideCollision(oGameObject));
+			oGameObject->onCollisionStay(sideCollision(oGameObject));
 		}
 	}
 	else
 	{
 		if (iIndex != m_oObjectCollision.end()) {
-			/*onCollisionExit(sideCollision(oGameObject));*/
+			onCollisionExit(sideCollision(oGameObject));
+			oGameObject->onCollisionExit(sideCollision(oGameObject));
 			m_oObjectCollision.erase(iIndex);
 		}
 	}
 }
 
 
-int PhysicalGameObject::sideCollision(GameObject* oGameObject) {
+int PhysicalGameObject::sideCollision(PhysicalGameObject* oGameObject) {
 	sf::Vector2f* oSegmentVector = new sf::Vector2f(0, 0);
 	std::pair<int, float> fLenghtMax (0, 0);
 	float fLength;
@@ -77,7 +81,7 @@ int PhysicalGameObject::sideCollision(GameObject* oGameObject) {
 	sf::Vector2f oInverseVector(m_oOrientation.x, m_oOrientation.y);
 	maths::invertVector(&oInverseVector);
 
-	Window::Clear();
+	/*Window::Clear();*/
 
 	for (int i = 0; i < 4; i++) {
 		/*fX = m_fX + m_fWidth;
@@ -130,7 +134,7 @@ int PhysicalGameObject::sideCollision(GameObject* oGameObject) {
 				fIntersectionX = maths::getHorizontalIntersection(fCoefInverseVector[0], fCoefInverseVector[1], fIntersectionY);
 			}
 
-			Window::Line oLine1;
+			/*Window::Line oLine1;
 
 			oLine1.p[0].position.x = fX;
 			oLine1.p[0].position.y = fY;
@@ -148,15 +152,15 @@ int PhysicalGameObject::sideCollision(GameObject* oGameObject) {
 			oLine2.p[1].position.x = fPointB[0];
 			oLine2.p[1].position.y = fPointB[1];
 
-			Window::m_oDebugs.push_back(oLine2);
+			Window::m_oDebugs.push_back(oLine2);*/
 
 			bool IsInSegment1 = maths::isPointOnSegment(fPointA[0], fPointA[1], fPointB[0], fPointB[1], fIntersectionX, fIntersectionY);
-			bool IsInSegment2 = maths::isPointOnSegment(oLine1.p[0].position.x, oLine1.p[0].position.y, oLine1.p[1].position.x, oLine1.p[1].position.y, fIntersectionX, fIntersectionY);
+			bool IsInSegment2 = maths::isPointOnSegment(fX, fY, fX + 100 * oInverseVector.x, fY + 100 * oInverseVector.y, fIntersectionX, fIntersectionY);
 
 			if (IsInSegment1 && IsInSegment2 )
 			{
 				fLength = maths::getLengthSegment(fPointA[0], fPointA[1], fIntersectionX, fIntersectionY);
-				std::cout << fLength << std::endl;
+				/*std::cout << fLength << std::endl;*/
 				if (fLength > fLenghtMax.second) {
 					setDebugPosition(fIntersectionX, fIntersectionY);
 					fLenghtMax.first = j == 1 || j == 2 ? 1 : 2;
@@ -183,6 +187,7 @@ void PhysicalGameObject::handleCollision(sf::RenderWindow* oWindow) {
 	if (sideCollsion != 0) {
 		if (!m_bWindowCollision) {
 			onCollisionEnter(sideCollsion);
+			m_bWindowCollision = true;
 		}
 		else {
 			onCollisionStay(sideCollsion);
@@ -192,12 +197,13 @@ void PhysicalGameObject::handleCollision(sf::RenderWindow* oWindow) {
 	{
 		if (m_bWindowCollision) {
 			onCollisionExit(sideCollsion);
+			m_bWindowCollision = false;
 		}
 	}
 }
 
 void PhysicalGameObject::onCollisionEnter(int side) {
-	/*maths::bounceVector(&m_oOrientation, side);*/
+
 }
 
 void PhysicalGameObject::onCollisionStay(int side) {

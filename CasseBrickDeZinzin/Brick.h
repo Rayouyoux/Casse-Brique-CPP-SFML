@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PhysicalGameObject.h"
+class GameManager;
 
 class Brick : public PhysicalGameObject
 {
@@ -8,7 +9,7 @@ public:
 
 	int m_iLife;
 
-	Brick(int iLife, float fX, float fY, float fWidth, float fHeight, Window* oWindow);
+	Brick(int iLife, float fX, float fY, float fWidth, float fHeight, Window* oWindow, GameManager* oGameManager);
 	~Brick();
 
 	void takeDamage();

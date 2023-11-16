@@ -1,5 +1,6 @@
 #include "Brick.h"
 #include "maths.h"
+#include "GameManager.h"
 #include <map>
 
 std::map<int, sf::Color> HealthColorStates{
@@ -12,8 +13,8 @@ std::map<int, sf::Color> HealthColorStates{
 	{7, sf::Color(89, 30, 34)}
 };
 
-Brick::Brick(int iLife, float fX, float fY, float fWidth, float fHeight, Window* oWindow) :
-	PhysicalGameObject(fX, fY, fWidth, fHeight, oWindow) {
+Brick::Brick(int iLife, float fX, float fY, float fWidth, float fHeight, Window* oWindow, GameManager* oGameManager) :
+	PhysicalGameObject(fX, fY, fWidth, fHeight, oWindow, oGameManager) {
 	m_iLife = iLife;
 	setColor();
 }
@@ -30,7 +31,7 @@ void Brick::setColor() {
 }
 
 void Brick::onCollisionEnter(int side) {
-	maths::bounceVector(&m_oOrientation, side);
+	takeDamage();
 }
 
 void Brick::onCollisionStay(int side) {

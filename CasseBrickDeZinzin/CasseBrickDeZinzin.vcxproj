@@ -133,6 +133,7 @@
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Cannon.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="inputManager.cpp" />
     <ClCompile Include="LevelManager.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Cannon.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="inputManager.h" />
     <ClInclude Include="LevelManager.h" />

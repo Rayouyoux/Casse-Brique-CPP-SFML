@@ -28,10 +28,8 @@ namespace maths {
 		side == 1 ? orientationVector->x = -orientationVector->x : orientationVector->y = -orientationVector->y;
 	}
 
-	sf::Vector2f getOrientationVector(sf::Vector2i* oMousePosition, float fX, float fY) {
-		sf::Vector2f orientationVector;
-		orientationVector.x = oMousePosition->x - fX;
-		orientationVector.y = oMousePosition->y - fY;
+	sf::Vector2f getOrientationVector(float fAX, float fAY, float fBX, float fBY) {
+		sf::Vector2f orientationVector(fBX - fAX, fBY - fAY);
 		normalizeVector(&orientationVector);
 		return orientationVector;
 	}

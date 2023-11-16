@@ -4,16 +4,17 @@
 class Window;
 class Vector2i;
 class Vector2f;
+class GameManager;
 
 class PhysicalGameObject : public GameObject
 {
 public:
-	PhysicalGameObject(float fX, float fY, float fWidth, float fHeight, Window* oWindow);
-	PhysicalGameObject(float fX, float fY, float fRadius, Window* oWindow);
+	PhysicalGameObject(float fX, float fY, float fWidth, float fHeight, Window* oWindow, GameManager* oGameManager);
+	PhysicalGameObject(float fX, float fY, float fRadius, Window* oWindow, GameManager* oGameManager);
 
 	void handleCollision(sf::RenderWindow* oWindow);
-	void handleCollision(GameObject* oGameObject);
-	int sideCollision(GameObject* oGameObject);
+	void handleCollision(PhysicalGameObject* oGameObject);
+	int sideCollision(PhysicalGameObject* oGameObject);
 
 	virtual void onCollisionEnter(int side);
 	virtual void onCollisionStay(int side);

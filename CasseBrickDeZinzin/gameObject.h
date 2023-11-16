@@ -18,6 +18,7 @@ public:
 	void setColor(const sf::Color& oColor);
 	void setDebugPosition(float fX, float fY);
 	void draw(Window* oWindow);
+	void setDirection(sf::Vector2f* oDirection);
 
 	float m_fX;
 	float m_fY;
@@ -27,6 +28,7 @@ public:
 	sf::Vector2f m_oOrientation;
 	sf::Shape* m_oDebugPoint;
 	bool m_bDrawDebug;
+	bool m_bMove;
 
 	~GameObject();
 };

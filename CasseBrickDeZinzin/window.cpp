@@ -2,7 +2,7 @@
 
 #include "gameObject.h"
 
-std::vector<Window::Line> Window::m_oDebugs;
+//std::vector<Window::Line> Window::m_oDebugs;
 
 Window::Window(int iWidth, int iHeight, std::string sWindowName) {
 
@@ -19,17 +19,17 @@ void Window::display() {
 		m_voWindowObjects[i]->draw(this);
 	}
 
-	for (int i = 0; i < m_oDebugs.size(); i++) {
+	/*for (int i = 0; i < m_oDebugs.size(); i++) {
 		m_oWindow->draw(m_oDebugs[i].p, 2, sf::Lines);
-	}
+	}*/
 
 	m_oWindow->display();
 }
 
-void Window::Clear() 
-{
-	m_oDebugs.clear();
-}
+//void Window::Clear() 
+//{
+//	m_oDebugs.clear();
+//}
 
 void Window::close() {
 	m_oWindow->close();

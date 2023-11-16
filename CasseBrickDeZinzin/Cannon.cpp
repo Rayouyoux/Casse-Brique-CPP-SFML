@@ -5,23 +5,15 @@ Cannon::Cannon(float fX, float fY, float fWidth, float fHeight, Window* oWindow)
 		GameObject(fX, fY, fWidth, fHeight, oWindow) {
 }
 
-void Cannon::shoot(sf::Vector2f* orientation, Window* oWindow) {
-	Ball* newBall = new Ball(m_fX, m_fY, 20, oWindow);
-	newBall->setDirection(orientation);
+void Cannon::shoot(float fMouseX, float fMouseY, Window* oWindow, GameManager* oGameManager) {
+	Ball* newBall = new Ball(m_fX, m_fY, 20, oWindow, oGameManager);
+	m_oOrientation = maths::getOrientationVector(m_fX, m_fY, fMouseX, fMouseY);
+	newBall->setDirection(&m_oOrientation);
 }
 
-sf::Vector2f Cannon::getOrientationVector(sf::Vector2i* oMousePosition, float fX, float fY) {
-	sf::Vector2f orientationVector;
-	orientationVector.x = oMousePosition->x - fX;
-	orientationVector.y = oMousePosition->y - fY;
-	maths::normalizeVector(&orientationVector);
-	return orientationVector;
-}
-
-void Cannon::rotate(sf::Vector2i* oMousePosition) {
-	//if (oMousePosition->y < m_fY) {
-	{
-		setRotation(-atan2(oMousePosition->x - m_fX, oMousePosition->y - m_fY) * 180 / 3.14159);
+void Cannon::rotate(float fX, float fY) {
+	if (fY < m_fY) {
+		setRotation(-atan2(fX - m_fX, fY - m_fY) * 180 / 3.14159);
 	}
 }
 

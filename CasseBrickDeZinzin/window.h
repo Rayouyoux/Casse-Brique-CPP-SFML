@@ -10,10 +10,10 @@ class GameObject;
 class Window {
 public:
 
-	struct Line
+	/*struct Line
 	{
 		sf::Vertex p[2];
-	};
+	};*/
 
 
 	Window(int iWidth, int iHeight, std::string sWindowName);
@@ -27,9 +27,9 @@ public:
 	std::vector<GameObject*> m_voWindowObjects;
 	sf::RenderWindow* m_oWindow;
 
-	static std::vector<Line> m_oDebugs;
+	/*static std::vector<Line> m_oDebugs;*/
 
-	static void Clear();
+	/*static void Clear();*/
 
 	~Window();
 
