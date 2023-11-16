@@ -28,7 +28,7 @@ PhysicalGameObject(fX, fY, fWidth, fHeight) {
 void Brick::takeDamage() {
 	m_iLife--;
 	if (m_iLife == 0) {
-		m_bDestroy = true;
+		GameManager::AddDestroyObject(this);
 	}
 }
 

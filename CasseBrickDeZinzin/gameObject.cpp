@@ -22,7 +22,6 @@ GameObject::GameObject(float fX, float fY, float fWidth, float fHeight) {
 	m_bDrawDebug = false;
 
 	m_bMove = false;
-	m_bDestroy = false;
 }
 
 GameObject::GameObject(float fX, float fY, float fRadius) {
@@ -37,7 +36,6 @@ GameObject::GameObject(float fX, float fY, float fRadius) {
 	m_oDebugPoint->setFillColor(sf::Color::Red);
 	m_bDrawDebug = false;
 	m_bMove = false;
-	m_bDestroy = false;
 }
 
 void GameObject::setPosition(float fX, float fY) {

@@ -29,7 +29,6 @@ public:
 	sf::Shape* m_oDebugPoint;
 	bool m_bDrawDebug;
 	bool m_bMove;
-	bool m_bDestroy;
 
 	virtual ~GameObject();
 };

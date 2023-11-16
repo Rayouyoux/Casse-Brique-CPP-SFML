@@ -14,6 +14,7 @@ private:
 	static std::list<PhysicalGameObject*> m_voPhysicalGameObjects;
 	static std::list<GameObject*> m_voMoveObject;
 	static std::list<Brick*> m_voBricks;
+	static std::list<GameObject*> m_voDestroyObjects;
 
 public:
 	Window* m_oWindow;
@@ -31,8 +32,7 @@ public:
 	void eventLoop();
 	void handleCollision();
 	void move();
-	int tryDestroy();
-	void destroy(int iIndice);
+	void destroy();
 
 	static std::list<PhysicalGameObject*>::iterator AddPhysicalGameObject(PhysicalGameObject* go);
 	static std::list<GameObject*>::iterator AddMovingGameObject(GameObject* go);
@@ -40,6 +40,7 @@ public:
 	static void RemovePhysicalGameObject(std::list<PhysicalGameObject*>::iterator oIterator);
 	static void RemoveMovingGameObject(std::list<GameObject*>::iterator oIterator);
 	static void RemoveBrick(std::list<Brick*>::iterator oIterator);
+	static void AddDestroyObject(GameObject* go);
 
 	~GameManager();
 };

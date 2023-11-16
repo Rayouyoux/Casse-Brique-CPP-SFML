@@ -9,6 +9,7 @@
 std::list<PhysicalGameObject*> GameManager::m_voPhysicalGameObjects;
 std::list<GameObject*> GameManager::m_voMoveObject;
 std::list<Brick*> GameManager::m_voBricks;
+std::list<GameObject*> GameManager::m_voDestroyObjects;
 
 GameManager::GameManager() {
 
@@ -52,11 +53,12 @@ void GameManager::gameLoop() {
 
         m_oCannon->rotate(m_fMousePosition[0], m_fMousePosition[1]);
 
-        handleCollision();
-        int i = tryDestroy();
-        if (i != -1) {
-            destroy(i);
+        if (!m_voDestroyObjects.empty()) {
+            destroy();
         }
+
+        handleCollision();
+
 
         m_oWindow->display();
 
@@ -120,22 +122,19 @@ void GameManager::move() {
     }
 }
 
-int GameManager::tryDestroy() {
-
-    for (auto it = m_oWindow->m_voWindowObjects.begin(); it != m_oWindow->m_voWindowObjects.end(); ++it)
+void GameManager::destroy() {
+    for (auto it = m_voDestroyObjects.rbegin(); it != m_voDestroyObjects.rend(); ++it)
     {
-        if ((*it)->m_bDestroy) {
-            std::cout << "hello";
-            return -1;
-        }
+        GameObject* oGameObject = (*it);
+        std::cout << "hello" << std::endl;
+        delete oGameObject;
     }
-    return -1;
+    m_voDestroyObjects.clear();
 }
 
-void GameManager::destroy(int iIndice) {
-    /*GameObject* oGameObject = m_oWindow->m_voWindowObjects[iIndice];
-    m_oWindow->m_voWindowObjects.erase(m_oWindow->m_voWindowObjects.begin() + iIndice);
-    delete oGameObject;*/
+void GameManager::AddDestroyObject(GameObject* go)
+{
+    m_voDestroyObjects.push_back(go);
 }
 
 std::list<PhysicalGameObject*>::iterator GameManager::AddPhysicalGameObject(PhysicalGameObject* go)
