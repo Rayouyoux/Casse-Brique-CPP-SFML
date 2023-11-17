@@ -1,0 +1,8 @@
+A     A    AAAAAAAAAA
+BB         BBBBBBBBB
+     C C   CCCCCCCCCCC
+
+A09.
+B03.
+C11.
+
