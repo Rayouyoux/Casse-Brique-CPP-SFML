@@ -18,6 +18,17 @@ void Cannon::rotate(float fX, float fY) {
 	}
 }
 
+/*
+void Cannon::shockWave(float fMouseX, float fMouseY, float fSize) {
+	m_oOrientation = maths::getOrientationVector(m_fX, m_fY, fMouseX, fMouseY);
+	GameObject* oShockwave = new PhysicalGameObject(m_fX, m_fY, fSize, 2000);
+	oShockwave->setOrigin(0.5, 0);
+	oShockwave->setDirection(&m_oOrientation);
+
+
+}
+*/
+
 Cannon::~Cannon() {
 
 }
