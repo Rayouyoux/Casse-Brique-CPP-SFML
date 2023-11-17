@@ -5,6 +5,7 @@
 Ball::Ball(float fX, float fY, float fRadius) :
 	PhysicalGameObject(fX, fY, fRadius) {
 	m_oIteratorMove = GameManager::AddMovingGameObject(this);
+	/*std::cout << typeid(*this).name() << std::endl;*/
 }
 
 void Ball::onCollisionEnter(int side) {
