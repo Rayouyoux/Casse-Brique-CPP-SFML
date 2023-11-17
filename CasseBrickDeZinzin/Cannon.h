@@ -13,7 +13,7 @@ public:
 	Cannon(float fX, float fY, float fWidth, float fHeight);
 	void shoot(float fMouseX, float fMouseY);
 	void rotate(float fX, float fY);
-	void shockWave(float fMouseX, float fMouseY, float fSize);
+	//void shockWave(float fMouseX, float fMouseY, float fSize);
 	virtual ~Cannon();
 };
 
