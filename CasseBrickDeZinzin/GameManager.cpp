@@ -112,6 +112,7 @@ void GameManager::eventLoop() {
 //void GameManager::getMousePosition() {
 //    m_fMousePosition[0] = sf::Mouse::getPosition(*m_oWindow->m_oWindow).x;
 //    m_fMousePosition[1] = sf::Mouse::getPosition(*m_oWindow->m_oWindow).y;
+//    m_oCannon->rotate(m_fMousePosition[0], m_fMousePosition[1]);
 //}
 //
 //void GameManager::shoot() {
