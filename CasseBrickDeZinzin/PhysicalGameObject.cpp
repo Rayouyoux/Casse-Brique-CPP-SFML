@@ -179,8 +179,11 @@ void PhysicalGameObject::handleCollision() {
 	if (m_fX < 0 || m_fX + m_fWidth > Window::m_oWindow->getSize().x) {
 		sideCollsion = 1;
 	}
-	else if (m_fY < 0 || m_fY + m_fHeight > Window::m_oWindow->getSize().y) {
+	else if (m_fY < 0) {
 		sideCollsion = 2;
+	}
+	else if (m_fY > Window::m_oWindow->getSize().y) {
+		sideCollsion = 3;
 	}
 	if (sideCollsion != 0) {
 		if (!m_bWindowCollision) {

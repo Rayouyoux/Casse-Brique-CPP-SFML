@@ -13,10 +13,10 @@ std::list<GameObject*> GameManager::m_voDestroyObjects;
 
 GameManager::GameManager() {
 
-    m_oWindow = new Window(640, 480, "SFML");
+    m_oWindow = new Window(1280, 800, "SFML");
 
-    m_oCannon = new Cannon(320, 460, 20, 100);
-    m_oBrick1 = new Brick(3, 320, 240, 100, 100, false);
+    m_oCannon = new Cannon(640, 720, 80, 100);
+    /*m_oBrick1 = new Brick(3, 320, 240, 100, 100, false);*/
 
     setLevel();
 
@@ -53,12 +53,11 @@ void GameManager::gameLoop() {
 
         m_oCannon->rotate(m_fMousePosition[0], m_fMousePosition[1]);
 
+        handleCollision();
+
         if (!m_voDestroyObjects.empty()) {
             destroy();
         }
-
-        handleCollision();
-
 
         m_oWindow->display();
 
@@ -67,8 +66,8 @@ void GameManager::gameLoop() {
 }
 
 void GameManager::setLevel() {
-    for (int i = 0; i < 5; i++) {
-        Brick* oBrick = new Brick(3, 70 + i * 100, 80, 80, 40, false);
+    for (int i = 0; i < 22; i++) {
+        Brick* oBrick = new Brick(3, 90 + (i % 11) * 100, 80 + i / 11 * 80, 80, 40, false);
     }
 }
 
@@ -126,7 +125,6 @@ void GameManager::destroy() {
     for (auto it = m_voDestroyObjects.rbegin(); it != m_voDestroyObjects.rend(); ++it)
     {
         GameObject* oGameObject = (*it);
-        std::cout << "hello" << std::endl;
         delete oGameObject;
     }
     m_voDestroyObjects.clear();

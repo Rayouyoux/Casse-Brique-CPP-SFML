@@ -25,6 +25,8 @@ public:
 	std::string m_sWindowName;
 	static std::list<GameObject*> m_voWindowObjects;
 	static sf::RenderWindow* m_oWindow;
+	static std::list<GameObject*>::iterator AddGameObject(GameObject* go);
+	static void RemoveGameObject(std::list<GameObject*>::iterator oIterator);
 
 	/*static std::vector<Line> m_oDebugs;*/
 

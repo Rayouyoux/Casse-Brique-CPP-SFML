@@ -38,4 +38,18 @@ void Window::close() {
 	m_oWindow->close();
 }
 
+std::list<GameObject*>::iterator Window::AddGameObject(GameObject* go)
+{
+	m_voWindowObjects.push_back(go);
+
+	auto it = m_voWindowObjects.end();
+	it--;
+	return it;
+}
+
+void Window::RemoveGameObject(std::list<GameObject*>::iterator oIterator)
+{
+	m_voWindowObjects.erase(oIterator);
+}
+
 Window::~Window() {}

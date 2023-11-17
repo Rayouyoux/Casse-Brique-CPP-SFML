@@ -6,9 +6,8 @@ Cannon::Cannon(float fX, float fY, float fWidth, float fHeight) :
 }
 
 void Cannon::shoot(float fMouseX, float fMouseY) {
-	Ball* newBall = new Ball(m_fX, m_fY, 20);
-	m_oOrientation = maths::getOrientationVector(m_fX, fMouseY, fMouseX, m_fY);
-	std::cout << "x: " << m_oOrientation.x << " y : " << m_oOrientation.y << std::endl;
+	Ball* newBall = new Ball(m_fX - m_fWidth / 4, m_fY, 20);
+	m_oOrientation = maths::getOrientationVector(m_fX, m_fY, fMouseX, fMouseY);
 	newBall->setDirection(&m_oOrientation);
 }
 

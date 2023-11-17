@@ -13,6 +13,7 @@ public:
 	int m_iLife;
 	std::list<Brick*>::iterator m_oIteratorBrick;
 	std::list<GameObject*>::iterator m_oIteratorMove;
+	bool m_bCanMove;
 
 	Brick(int iLife, float fX, float fY, float fWidth, float fHeight,  bool bCanMove);
 	virtual ~Brick();

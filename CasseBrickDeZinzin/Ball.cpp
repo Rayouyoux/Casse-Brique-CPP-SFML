@@ -8,7 +8,12 @@ Ball::Ball(float fX, float fY, float fRadius) :
 }
 
 void Ball::onCollisionEnter(int side) {
-	maths::bounceVector(&m_oOrientation, side);
+	if (side != 3) {
+		maths::bounceVector(&m_oOrientation, side);
+	}
+	else {
+		GameManager::AddDestroyObject(this);
+	}
 }
 
 void Ball::onCollisionStay(int side) {

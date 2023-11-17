@@ -15,7 +15,7 @@ GameObject::GameObject(float fX, float fY, float fWidth, float fHeight) {
 	m_oGraphic->setPosition(m_fX, m_fY);
 
 
-	Window::m_voWindowObjects.push_back(this);
+	m_oIterator = Window::AddGameObject(this);
 
 	m_oDebugPoint = new sf::CircleShape(5);
 	m_oDebugPoint->setFillColor(sf::Color::Red);
@@ -31,7 +31,7 @@ GameObject::GameObject(float fX, float fY, float fRadius) {
 	m_fHeight = fRadius * 2;
 	m_oGraphic = new sf::CircleShape(fRadius);
 	m_oGraphic->setPosition(m_fX, m_fY);
-	Window::m_voWindowObjects.push_back(this);
+	m_oIterator = Window::AddGameObject(this);
 	m_oDebugPoint = new sf::CircleShape(5);
 	m_oDebugPoint->setFillColor(sf::Color::Red);
 	m_bDrawDebug = false;
@@ -85,4 +85,6 @@ void GameObject::draw() {
 		Window::m_oWindow->draw(*m_oDebugPoint);
 }
 
-GameObject::~GameObject() {}
+GameObject::~GameObject() {
+	Window::RemoveGameObject(m_oIterator);
+}

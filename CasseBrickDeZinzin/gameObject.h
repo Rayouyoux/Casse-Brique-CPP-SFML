@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <list>
 
 class Window;
 
@@ -29,6 +30,7 @@ public:
 	sf::Shape* m_oDebugPoint;
 	bool m_bDrawDebug;
 	bool m_bMove;
+	std::list<GameObject*>::iterator m_oIterator;
 
 	virtual ~GameObject();
 };
