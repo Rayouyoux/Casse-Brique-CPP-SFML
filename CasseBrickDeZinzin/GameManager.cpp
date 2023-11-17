@@ -1,6 +1,7 @@
 #include "GameManager.h"
 
 #include "window.h"
+#include "inputManager.h"
 
 #include "Cannon.h"
 #include "Brick.h"
@@ -26,6 +27,8 @@ GameManager::GameManager() {
     /*Cannon* oLine = new Cannon(0, 0, 5, 50, oWindow);
     oLine->setColor(sf::Color::Red);
     int bFixe = 0;*/
+
+    /*initInput();*/
     
     gameLoop();
 }
@@ -34,6 +37,7 @@ void GameManager::gameLoop() {
     while (m_oWindow->m_oWindow->isOpen())
     {
         eventLoop();
+        /*inputManager::eventloop();*/
         
         /* --- DEBUG --- */
 
@@ -51,12 +55,11 @@ void GameManager::gameLoop() {
 
         move();
 
-        m_oCannon->rotate(m_fMousePosition[0], m_fMousePosition[1]);
-
         handleCollision();
 
         if (!m_voDestroyObjects.empty()) {
             destroy();
+            victory();
         }
 
         m_oWindow->display();
@@ -71,6 +74,10 @@ void GameManager::setLevel() {
     }
 }
 
+bool GameManager::victory() {
+    return m_voBricks.empty();
+}
+
 void GameManager::eventLoop() {
     sf::Event oEvent;
     while (m_oWindow->m_oWindow->pollEvent(oEvent))
@@ -82,6 +89,7 @@ void GameManager::eventLoop() {
         {
             m_fMousePosition[0] = sf::Mouse::getPosition(*m_oWindow->m_oWindow).x;
             m_fMousePosition[1] = sf::Mouse::getPosition(*m_oWindow->m_oWindow).y;
+            m_oCannon->rotate(m_fMousePosition[0], m_fMousePosition[1]);
         }
         else if (oEvent.type == sf::Event::MouseButtonPressed) {
             if (oEvent.mouseButton.button == sf::Mouse::Left) {
@@ -91,6 +99,25 @@ void GameManager::eventLoop() {
         }
     }
 }
+
+//void GameManager::initInput() {
+//    inputManager::addEvent(sf::Event::Closed, close);
+//    inputManager::addEvent(sf::Event::MouseMoved, getMousePosition);
+//    inputManager::addMouseEvent(sf::Mouse::Left, shoot);
+//}
+//void GameManager::close() {
+//    m_oWindow->close();
+//}
+//
+//void GameManager::getMousePosition() {
+//    m_fMousePosition[0] = sf::Mouse::getPosition(*m_oWindow->m_oWindow).x;
+//    m_fMousePosition[1] = sf::Mouse::getPosition(*m_oWindow->m_oWindow).y;
+//    m_oCannon->rotate(m_fMousePosition[0], m_fMousePosition[1]);
+//}
+//
+//void GameManager::shoot() {
+//    m_oCannon->shoot(m_fMousePosition[0], m_fMousePosition[1]);
+//}
 
 void GameManager::handleCollision() {
 

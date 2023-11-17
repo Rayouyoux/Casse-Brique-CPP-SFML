@@ -30,9 +30,14 @@ public:
 	void setLevel();
 	void gameLoop();
 	void eventLoop();
+	/*void initInput();*/
 	void handleCollision();
 	void move();
 	void destroy();
+	bool victory();
+	/*void close();
+	void getMousePosition();
+	void shoot();*/
 
 	static std::list<PhysicalGameObject*>::iterator AddPhysicalGameObject(PhysicalGameObject* go);
 	static std::list<GameObject*>::iterator AddMovingGameObject(GameObject* go);
