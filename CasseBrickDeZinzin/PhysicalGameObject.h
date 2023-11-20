@@ -16,10 +16,11 @@ public:
 
 	void handleCollision();
 	void handleCollision(PhysicalGameObject* oGameObject);
+	int sideCollision(PhysicalGameObject* oGameObject);
 
-	virtual void onCollisionEnter(PhysicalGameObject* oGameObject = nullptr);
-	virtual void onCollisionStay(PhysicalGameObject* oGameObject = nullptr);
-	virtual void onCollisionExit(PhysicalGameObject* oGameObject = nullptr);
+	virtual void onCollisionEnter(int side);
+	virtual void onCollisionStay(int side);
+	virtual void onCollisionExit(int side);
 	virtual ~PhysicalGameObject();
 
 	std::list<GameObject*> m_oObjectCollision;
