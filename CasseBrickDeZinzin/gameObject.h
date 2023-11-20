@@ -16,9 +16,8 @@ public:
 	void setPosition(float fX, float fY);
 	void setOrigin(float fX, float fY);
 	void setRotation(float fAngle);
-	void setColor(const sf::Color& oColor);
-	void setDebugPosition(float fX, float fY);
-	void draw();
+	/*void setColor(const sf::Color& oColor);
+	void draw();*/
 	void setDirection(sf::Vector2f* oDirection);
 
 	float m_fX;
@@ -27,9 +26,7 @@ public:
 	float m_fHeight;
 	sf::Shape* m_oGraphic;
 	sf::Vector2f m_oOrientation;
-	sf::Shape* m_oDebugPoint;
-	bool m_bDrawDebug;
-	bool m_bMove;
+	/*bool m_bMove;*/
 	std::list<GameObject*>::iterator m_oIterator;
 
 	virtual ~GameObject();

@@ -1,10 +1,9 @@
 #pragma once
 class Window;
-class Cannon;
-class Brick;
-class Ball;
 class PhysicalGameObject;
 class GameObject;
+class Zoobie;
+class Location;
 #include <SFML/Graphics.hpp>
 #include <list>
 
@@ -13,40 +12,36 @@ class GameManager
 private:
 	static std::list<PhysicalGameObject*> m_voPhysicalGameObjects;
 	static std::list<GameObject*> m_voMoveObject;
-	static std::list<Brick*> m_voBricks;
+	static std::list<Zoobie*> m_voZoobies;
+	static std::list<Location*> m_voLocations;
 	static std::list<GameObject*> m_voDestroyObjects;
 
 public:
 	Window* m_oWindow;
-	Cannon* m_oCannon;
-	Brick* m_oBrick1;
-	Brick* m_oBrick2;
-	Ball* m_oBall;
 	sf::Clock m_oClock;
 	float m_fDeltaTime;
 	float m_fMousePosition[2];
 
 	GameManager();
-	void setLevel();
 	void gameLoop();
 	void eventLoop();
-	/*void initInput();*/
 	void handleCollision();
 	void move();
 	void destroy();
-	bool victory();
-	/*void close();
-	void getMousePosition();
-	void shoot();*/
 
 	static std::list<PhysicalGameObject*>::iterator AddPhysicalGameObject(PhysicalGameObject* go);
-	static std::list<GameObject*>::iterator AddMovingGameObject(GameObject* go);
-	static std::list<Brick*>::iterator AddBrick(Brick* brick);
 	static void RemovePhysicalGameObject(std::list<PhysicalGameObject*>::iterator oIterator);
+
+	static std::list<GameObject*>::iterator AddMovingGameObject(GameObject* go);
 	static void RemoveMovingGameObject(std::list<GameObject*>::iterator oIterator);
-	static void RemoveBrick(std::list<Brick*>::iterator oIterator);
+
+	static std::list<Zoobie*>::iterator AddZoobie(Zoobie* go);
+	static void RemoveZoobie(std::list<Zoobie*>::iterator oIterator);
+
+	static std::list<Location*>::iterator AddLocation(Location* go);
+	static void RemoveLocation(std::list<Location*>::iterator oIterator);
+
 	static void AddDestroyObject(GameObject* go);
 
 	~GameManager();
 };
-

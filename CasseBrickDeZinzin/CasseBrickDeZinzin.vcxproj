@@ -130,29 +130,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Ball.cpp" />
-    <ClCompile Include="Brick.cpp" />
-    <ClCompile Include="Cannon.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="gameObject.cpp" />
-    <ClCompile Include="inputManager.cpp" />
-    <ClCompile Include="LevelManager.cpp" />
+    <ClCompile Include="Location.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maths.cpp" />
     <ClCompile Include="PhysicalGameObject.cpp" />
+    <ClCompile Include="TurretType.cpp" />
     <ClCompile Include="window.cpp" />
+    <ClCompile Include="Zoobie.cpp" />
+    <ClCompile Include="ZoobiesType.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ball.h" />
-    <ClInclude Include="Brick.h" />
-    <ClInclude Include="Cannon.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="gameObject.h" />
-    <ClInclude Include="inputManager.h" />
-    <ClInclude Include="LevelManager.h" />
+    <ClInclude Include="Location.h" />
     <ClInclude Include="maths.h" />
     <ClInclude Include="PhysicalGameObject.h" />
+    <ClInclude Include="TurretType.h" />
     <ClInclude Include="window.h" />
+    <ClInclude Include="Zoobie.h" />
+    <ClInclude Include="ZoobiesType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

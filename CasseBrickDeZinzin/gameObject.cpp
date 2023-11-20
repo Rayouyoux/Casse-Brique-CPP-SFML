@@ -17,11 +17,8 @@ GameObject::GameObject(float fX, float fY, float fWidth, float fHeight) {
 
 	m_oIterator = Window::AddGameObject(this);
 
-	m_oDebugPoint = new sf::CircleShape(5);
-	m_oDebugPoint->setFillColor(sf::Color::Red);
-	m_bDrawDebug = false;
 
-	m_bMove = false;
+	/*m_bMove = false;*/
 }
 
 GameObject::GameObject(float fX, float fY, float fRadius) {
@@ -32,10 +29,7 @@ GameObject::GameObject(float fX, float fY, float fRadius) {
 	m_oGraphic = new sf::CircleShape(fRadius);
 	m_oGraphic->setPosition(m_fX, m_fY);
 	m_oIterator = Window::AddGameObject(this);
-	m_oDebugPoint = new sf::CircleShape(5);
-	m_oDebugPoint->setFillColor(sf::Color::Red);
-	m_bDrawDebug = false;
-	m_bMove = false;
+	/*m_bMove = false;*/
 }
 
 void GameObject::setPosition(float fX, float fY) {
@@ -52,7 +46,7 @@ void GameObject::move(float fDeltaTime, float fspeed) {
 	float fX = m_fX + m_oOrientation.x * fDeltaTime * fspeed;
 	float fY = m_fY + m_oOrientation.y * fDeltaTime * fspeed;
 	setPosition(fX, fY);
-	m_bMove = true;
+	/*m_bMove = true;*/
 }
 
 void GameObject::setRotation(float fAngle) {
@@ -66,24 +60,9 @@ void GameObject::setDirection(sf::Vector2f* oDirection) {
 	}
 }
 
-void GameObject::setColor(const sf::Color& oColor) {
-	m_oGraphic->setFillColor(oColor);
-}
-
-void GameObject::setDebugPosition(float fX, float fY)
-{
-	m_bDrawDebug = true;
-
-	m_oDebugPoint->setOrigin(5 / 2.f, 5 / 2.f);
-	m_oDebugPoint->setPosition(fX, fY);
-}
-
-void GameObject::draw() {
-	Window::m_oWindow->draw(*m_oGraphic);
-
-	if(m_bDrawDebug)
-		Window::m_oWindow->draw(*m_oDebugPoint);
-}
+//void GameObject::setColor(const sf::Color& oColor) {
+//	m_oGraphic->setFillColor(oColor);
+//}
 
 GameObject::~GameObject() {
 	Window::RemoveGameObject(m_oIterator);
